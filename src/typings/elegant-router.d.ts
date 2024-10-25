@@ -54,18 +54,14 @@ declare module "@elegant-router/types" {
     "iframe-page": "/iframe-page/:url";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
     "manage": "/manage";
+    "manage_database": "/manage/database";
     "manage_menu": "/manage/menu";
     "manage_role": "/manage/role";
+    "manage_topic": "/manage/topic";
     "manage_user": "/manage/user";
     "manage_user-detail": "/manage/user-detail/:id";
     "metric": "/metric";
     "metric-detail": "/metric-detail/:id";
-    "multi-menu": "/multi-menu";
-    "multi-menu_first": "/multi-menu/first";
-    "multi-menu_first_child": "/multi-menu/first/child";
-    "multi-menu_second": "/multi-menu/second";
-    "multi-menu_second_child": "/multi-menu/second/child";
-    "multi-menu_second_child_home": "/multi-menu/second/child/home";
     "plugin": "/plugin";
     "plugin_barcode": "/plugin/barcode";
     "plugin_charts": "/plugin/charts";
@@ -146,7 +142,6 @@ declare module "@elegant-router/types" {
     | "manage"
     | "metric"
     | "metric-detail"
-    | "multi-menu"
     | "plugin"
     | "report"
     | "task"
@@ -189,14 +184,14 @@ declare module "@elegant-router/types" {
     | "function_tab"
     | "function_toggle-auth"
     | "home"
+    | "manage_database"
     | "manage_menu"
     | "manage_role"
+    | "manage_topic"
     | "manage_user-detail"
     | "manage_user"
     | "metric-detail"
     | "metric"
-    | "multi-menu_first_child"
-    | "multi-menu_second_child_home"
     | "plugin_barcode"
     | "plugin_charts_antv"
     | "plugin_charts_echarts"

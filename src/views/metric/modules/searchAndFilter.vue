@@ -74,10 +74,10 @@ const handleValueChange = useDebounceFn((type: keyof FormData, value: string) =>
 
   <!-- 搜索框 -->
   <div class="flex justify-center w-full">
-    <NInput v-model:value="searchText" placeholder="请输入" class='mt-3  dark:bg-slate-700' style="width: 90%"
-      @input="() => handleValueChange('searchValue', searchText)">
+    <NInput v-model:value="searchText" placeholder="指标搜索" class='my-3 h-10 rounded-xl dark:bg-slate-700'
+      style="width: 65%" @input="() => handleValueChange('searchValue', searchText)">
       <template #suffix>
-        <Icon icon="mdi:magnify" width="24" height="24" />
+        <Icon icon="mdi:magnify" width="28" height="28" />
       </template>
     </NInput>
   </div>

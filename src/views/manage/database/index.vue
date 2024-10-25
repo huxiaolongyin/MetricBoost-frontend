@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <LookForward />
+  <div>manage_database</div>
 </template>
 
 <style scoped></style>

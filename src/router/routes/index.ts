@@ -17,7 +17,8 @@ const customRoutes: CustomRoute[] = [
       title: 'exception',
       i18nKey: 'route.exception',
       icon: 'ant-design:exception-outlined',
-      order: 7
+      order: 7,
+      hideInMenu: true
     },
     children: [
       {
@@ -47,7 +48,8 @@ const customRoutes: CustomRoute[] = [
         meta: {
           title: 'exception_500',
           i18nKey: 'route.exception_500',
-          icon: 'ic:baseline-wifi-off'
+          icon: 'ic:baseline-wifi-off',
+          hideInMenu: true
         }
       }
     ]

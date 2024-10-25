@@ -47,7 +47,8 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'about',
       i18nKey: 'route.about',
       icon: 'fluent:book-information-24-regular',
-      order: 10
+      order: 10,
+      hideInMenu: true
     }
   },
   {
@@ -58,7 +59,8 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'alova',
       i18nKey: 'route.alova',
       icon: 'carbon:http',
-      order: 7
+      order: 7,
+      hideInMenu: true
     },
     children: [
       {
@@ -113,7 +115,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'decision',
       i18nKey: 'route.decision',
-      icon: 'mdi:clock-fast',
+      icon: 'mdi:brain',
       order: 4
     }
   },
@@ -125,7 +127,8 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'function',
       i18nKey: 'route.function',
       icon: 'icon-park-outline:all-application',
-      order: 6
+      order: 6,
+      hideInMenu: true
     },
     children: [
       {
@@ -284,6 +287,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'manage_database',
+        path: '/manage/database',
+        component: 'view.manage_database',
+        meta: {
+          title: 'manage_database',
+          i18nKey: 'route.manage_database',
+          icon: 'mdi:database'
+        }
+      },
+      {
         name: 'manage_menu',
         path: '/manage/menu',
         component: 'view.manage_menu',
@@ -306,6 +319,16 @@ export const generatedRoutes: GeneratedRoute[] = [
           icon: 'carbon:user-role',
           order: 2,
           roles: ['R_SUPER']
+        }
+      },
+      {
+        name: 'manage_topic',
+        path: '/manage/topic',
+        component: 'view.manage_topic',
+        meta: {
+          title: 'manage_topic',
+          i18nKey: 'route.manage_topic',
+          icon: 'mdi:webpack'
         }
       },
       {
@@ -358,68 +381,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
-    name: 'multi-menu',
-    path: '/multi-menu',
-    component: 'layout.base',
-    meta: {
-      title: 'multi-menu',
-      i18nKey: 'route.multi-menu',
-      order: 8
-    },
-    children: [
-      {
-        name: 'multi-menu_first',
-        path: '/multi-menu/first',
-        meta: {
-          title: 'multi-menu_first',
-          i18nKey: 'route.multi-menu_first',
-          order: 1
-        },
-        children: [
-          {
-            name: 'multi-menu_first_child',
-            path: '/multi-menu/first/child',
-            component: 'view.multi-menu_first_child',
-            meta: {
-              title: 'multi-menu_first_child',
-              i18nKey: 'route.multi-menu_first_child'
-            }
-          }
-        ]
-      },
-      {
-        name: 'multi-menu_second',
-        path: '/multi-menu/second',
-        meta: {
-          title: 'multi-menu_second',
-          i18nKey: 'route.multi-menu_second',
-          order: 2
-        },
-        children: [
-          {
-            name: 'multi-menu_second_child',
-            path: '/multi-menu/second/child',
-            meta: {
-              title: 'multi-menu_second_child',
-              i18nKey: 'route.multi-menu_second_child'
-            },
-            children: [
-              {
-                name: 'multi-menu_second_child_home',
-                path: '/multi-menu/second/child/home',
-                component: 'view.multi-menu_second_child_home',
-                meta: {
-                  title: 'multi-menu_second_child_home',
-                  i18nKey: 'route.multi-menu_second_child_home'
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
     name: 'plugin',
     path: '/plugin',
     component: 'layout.base',
@@ -427,7 +388,8 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: '插件示例',
       i18nKey: 'route.plugin',
       order: 7,
-      icon: 'clarity:plugin-line'
+      icon: 'clarity:plugin-line',
+      hideInMenu: true
     },
     children: [
       {
@@ -622,7 +584,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'report',
       i18nKey: 'route.report',
-      icon: 'mdi:file-document-multiple',
+      icon: 'mdi:book-check-outline',
       order: 5
     }
   },
@@ -633,8 +595,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'task',
       i18nKey: 'route.task',
-      icon: 'mdi:trello',
+      icon: 'mdi:calendar-clock',
       order: 6
+
     }
   },
   {

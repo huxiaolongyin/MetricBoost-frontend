@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetRoleList } from '@/service/api';
+import { fetchBatchDeleteRole, fetchDeleteRole, fetchGetRoleList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -10,17 +10,7 @@ import RoleSearch from './modules/role-search.vue';
 
 const appStore = useAppStore();
 
-const {
-  columns,
-  columnChecks,
-  data,
-  loading,
-  getData,
-  getDataByPage,
-  mobilePagination,
-  searchParams,
-  resetSearchParams
-} = useTable({
+const { columns, columnChecks, data, loading, getData, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetRoleList,
   apiParams: {
     current: 1,
@@ -106,6 +96,7 @@ const {
   ]
 });
 
+
 const {
   drawerVisible,
   operateType,
@@ -120,16 +111,18 @@ const {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await fetchBatchDeleteRole({ ids: checkedRowKeys.value });
+  if (!error) {
+    onBatchDeleted();
+  }
 }
 
-function handleDelete(id: number) {
+async function handleDelete(id: number) {
   // request
-  console.log(id);
-
-  onDeleted();
+  const { error } = await fetchDeleteRole({ id });
+  if (!error) {
+    onDeleted();
+  }
 }
 
 function edit(id: number) {
@@ -139,37 +132,17 @@ function edit(id: number) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <RoleSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
+    <RoleSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
     <NCard :title="$t('page.manage.role.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
-        <TableHeaderOperation
-          v-model:columns="columnChecks"
-          :disabled-delete="checkedRowKeys.length === 0"
-          :loading="loading"
-          @add="handleAdd"
-          @delete="handleBatchDelete"
-          @refresh="getData"
-        />
+        <TableHeaderOperation v-model:columns="columnChecks" :disabled-delete="checkedRowKeys.length === 0"
+          :loading="loading" @add="handleAdd" @delete="handleBatchDelete" @refresh="getData" />
       </template>
-      <NDataTable
-        v-model:checked-row-keys="checkedRowKeys"
-        :columns="columns"
-        :data="data"
-        size="small"
-        :flex-height="!appStore.isMobile"
-        :scroll-x="702"
-        :loading="loading"
-        remote
-        :row-key="row => row.id"
-        :pagination="mobilePagination"
-        class="sm:h-full"
-      />
-      <RoleOperateDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getDataByPage"
-      />
+      <NDataTable v-model:checked-row-keys="checkedRowKeys" :columns="columns" :data="data" size="small"
+        :flex-height="!appStore.isMobile" :scroll-x="702" :loading="loading" remote :row-key="row => row.id"
+        :pagination="mobilePagination" class="sm:h-full" />
+      <RoleOperateDrawer v-model:visible="drawerVisible" :operate-type="operateType" :row-data="editingData"
+        @submitted="getData" />
     </NCard>
   </div>
 </template>

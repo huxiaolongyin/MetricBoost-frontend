@@ -4,7 +4,7 @@ import { enableStatusOptions } from '@/constants/business';
 import { translateOptions } from '@/utils/common';
 
 defineOptions({
-  name: 'RoleSearch'
+  name: 'DatabaseSearch'
 });
 
 interface Emits {
@@ -14,7 +14,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
-const model = defineModel<Api.SystemManage.RoleSearchParams>('model', { required: true });
+const model = defineModel<Api.SystemManage.DatabaseSearchParams>('model', { required: true });
 
 function reset() {
   emit('reset');
@@ -29,21 +29,27 @@ function search() {
   <NCard :title="$t('common.search')" :bordered="false" size="small" class="card-wrapper">
     <NForm :model="model" label-placement="left" :label-width="80">
       <NGrid responsive="screen" item-responsive>
-        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.role.roleName')" path="roleName" class="pr-24px">
-          <NInput v-model:value="model.roleName" :placeholder="$t('page.manage.role.form.roleName')" />
+
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.databaseName')" path="databaseName"
+          class="pr-24px">
+          <NInput v-model:value="model.databaseName" :placeholder="$t('page.manage.database.form.databaseName')" />
         </NFormItemGi>
-        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.role.roleCode')" path="roleCode" class="pr-24px">
-          <NInput v-model:value="model.roleCode" :placeholder="$t('page.manage.role.form.roleCode')" />
+
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.databaseType')" path="databaseType"
+          class="pr-24px">
+          <NInput v-model:value="model.databaseType" :placeholder="$t('page.manage.database.form.databaseType')" />
         </NFormItemGi>
-        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.role.roleStatus')" path="status" class="pr-24px">
-          <NSelect
-            v-model:value="model.status"
-            :placeholder="$t('page.manage.role.form.roleStatus')"
-            :options="translateOptions(enableStatusOptions)"
-            clearable
-          />
+
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.createBy')" path="createBy" class="pr-24px">
+          <NInput v-model:value="model.createBy" :placeholder="$t('page.manage.database.form.createBy')" />
         </NFormItemGi>
-        <NFormItemGi span="24 s:12 m:6">
+
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.status')" path="status" class="pr-24px">
+          <NSelect v-model:value="model.status" :placeholder="$t('page.manage.database.form.status')"
+            :options="translateOptions(enableStatusOptions)" clearable />
+        </NFormItemGi>
+
+        <NFormItemGi span="24 m:32" class="pr-24px">
           <NSpace class="w-full" justify="end">
             <NButton @click="reset">
               <template #icon>

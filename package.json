@@ -1,11 +1,11 @@
 {
-  "name": "soybean-admin",
+  "name": "metric-boost",
   "type": "module",
   "version": "1.3.7",
   "description": "A fresh and elegant admin template, based on Vue3、Vite3、TypeScript、NaiveUI and UnoCSS. 一个基于Vue3、Vite3、TypeScript、NaiveUI and UnoCSS的清新优雅的中后台模版。",
   "author": {
-    "name": "Soybean",
-    "email": "soybeanjs@outlook.com",
+    "name": "Jacob Zheng",
+    "email": "1453366421@qq.com",
     "url": "https://github.com/soybeanjs"
   },
   "license": "MIT",

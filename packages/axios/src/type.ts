@@ -104,6 +104,12 @@ export type FlatResponseFailData<ResponseData = any> = {
   response: AxiosResponse<ResponseData>;
 };
 
+/**
+ * 表示 API 请求的响应数据，可以是成功响应，也可以是失败响应。
+ *
+ * @template T -成功响应数据的类型。
+ * @template ResponseData -原始响应数据的类型。
+ */
 export type FlatResponseData<T = any, ResponseData = any> =
   | FlatResponseSuccessData<T, ResponseData>
   | FlatResponseFailData<ResponseData>;

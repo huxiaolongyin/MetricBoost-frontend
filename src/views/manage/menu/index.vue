@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
+import { fetchBatchDeleteMenu, fetchDeleteMenu, fetchGetAllPages, fetchGetMenuList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -18,14 +18,13 @@ const { bool: visible, setTrue: openModal } = useBoolean();
 
 const wrapperRef = ref<HTMLElement | null>(null);
 
-const { columns, columnChecks, data, loading, pagination, getData, getDataByPage } = useTable({
-
+const { columns, columnChecks, data, loading, pagination, getData } = useTable({
   apiFn: fetchGetMenuList,
   columns: () => [
     {
       type: 'selection',
       align: 'center',
-      width: 36
+      width: 48
     },
     {
       key: 'id',
@@ -38,7 +37,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       align: 'center',
       width: 80,
       render: row => {
-        const tagMap: Record<Api.SystemManage.MenuType, NaiveUI.ThemeColor> = {
+        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'default',
           2: 'primary'
         };
@@ -65,7 +64,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       key: 'icon',
       title: $t('page.manage.menu.icon'),
       align: 'center',
-      width: 50,
+      width: 60,
       render: row => {
         const icon = row.iconType === '1' ? row.icon : undefined;
 
@@ -182,16 +181,18 @@ function handleAdd() {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await fetchBatchDeleteMenu({ ids: checkedRowKeys.value });
+  if (!error) {
+    onBatchDeleted();
+  }
 }
 
-function handleDelete(id: number) {
+async function handleDelete(id: number) {
   // request
-  console.log(id);
-
-  onDeleted();
+  const { error } = await fetchDeleteMenu({ id });
+  if (!error) {
+    onDeleted();
+  }
 }
 
 /** the edit menu data or the parent menu data when adding a child menu */
@@ -238,7 +239,7 @@ init();
         :flex-height="!appStore.isMobile" :scroll-x="1088" :loading="loading" :row-key="row => row.id" remote
         :pagination="pagination" class="sm:h-full" />
       <MenuOperateModal v-model:visible="visible" :operate-type="operateType" :row-data="editingData"
-        :all-pages="allPages" @submitted="getDataByPage" />
+        :all-pages="allPages" @submitted="getData" />
     </NCard>
   </div>
 </template>

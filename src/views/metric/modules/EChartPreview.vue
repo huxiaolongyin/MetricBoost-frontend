@@ -22,6 +22,22 @@ const { domRef, updateOptions } = useEcharts(() => ({
     type: props.metricData.chartType,
     data: [] as number[],
     itemStyle: { color: "#165DFF" },
+    areaStyle: {
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [{
+          offset: 0,
+          color: 'rgba(22,93,255,0.3)'
+        }, {
+          offset: 1,
+          color: 'rgba(22,93,255,0)'
+        }]
+      }
+    }
   },
 }));
 

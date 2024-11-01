@@ -18,7 +18,7 @@ declare namespace CommonType {
 
   type YesOrNo = 'Y' | 'N';
 
-  /** add null to all properties */
+  /** 为所有属性添加 null */
   type RecordNullable<T> = {
     [K in keyof T]?: T[K] | null;
   };

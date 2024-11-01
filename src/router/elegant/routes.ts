@@ -287,13 +287,47 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'manage_api',
+        path: '/manage/api',
+        component: 'view.manage_api',
+        meta: {
+          title: 'manage_api',
+          i18nKey: 'route.manage_api',
+          icon: 'ant-design:api-outlined',
+          order: 4
+        }
+      },
+      {
+        name: 'manage_data-model',
+        path: '/manage/data-model',
+        component: 'view.manage_data-model',
+        meta: {
+          title: 'manage_data-model',
+          i18nKey: 'route.manage_data-model',
+          icon: 'mdi:webpack',
+          order: 6
+        }
+      },
+      {
         name: 'manage_database',
         path: '/manage/database',
         component: 'view.manage_database',
         meta: {
           title: 'manage_database',
           i18nKey: 'route.manage_database',
-          icon: 'mdi:database'
+          icon: 'mdi:database',
+          order: 5
+        }
+      },
+      {
+        name: 'manage_log',
+        path: '/manage/log',
+        component: 'view.manage_log',
+        meta: {
+          title: 'manage_log',
+          i18nKey: 'route.manage_log',
+          icon: 'ic:round-list-alt',
+          order: 7
         }
       },
       {
@@ -317,18 +351,8 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_role',
           i18nKey: 'route.manage_role',
           icon: 'carbon:user-role',
-          order: 2,
+          order: 1,
           roles: ['R_SUPER']
-        }
-      },
-      {
-        name: 'manage_topic',
-        path: '/manage/topic',
-        component: 'view.manage_topic',
-        meta: {
-          title: 'manage_topic',
-          i18nKey: 'route.manage_topic',
-          icon: 'mdi:webpack'
         }
       },
       {
@@ -339,7 +363,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_user',
           i18nKey: 'route.manage_user',
           icon: 'ic:round-manage-accounts',
-          order: 1,
+          order: 2,
           roles: ['R_ADMIN']
         }
       },
@@ -597,7 +621,6 @@ export const generatedRoutes: GeneratedRoute[] = [
       i18nKey: 'route.task',
       icon: 'mdi:calendar-clock',
       order: 6
-
     }
   },
   {

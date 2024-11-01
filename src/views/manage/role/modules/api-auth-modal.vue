@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, shallowRef, watch } from 'vue';
 import { $t } from '@/locales';
-import { fetchGetMenuButtonTree, fetchGetRoleButton, fetchUpdateRoleButton } from '@/service/api';
+import { fetchGetApiTree, fetchGetRoleApi, fetchUpdateRoleApi } from '@/service/api';
 
 defineOptions({
-  name: 'ButtonAuthModal'
+  name: 'ApiAuthModal'
 });
 
 interface Props {
@@ -24,78 +24,48 @@ function closeModal() {
 
 const title = computed(() => $t('common.edit') + $t('page.manage.role.buttonAuth'));
 
-// type ButtonConfig = {
+// type ApiConfig = {
 //   id: number;
 //   label: string;
-//   code: string;
+//   pId: number;
 // };
 
-// const tree = shallowRef<ButtonConfig[]>([]);
-const tree = shallowRef<Api.SystemManage.ButtonTree[]>([]);
+// const tree = shallowRef<ApiConfig[]>([]);
+const tree = shallowRef<Api.SystemManage.MenuTree[]>([]);
 
-async function getButtonTree() {
+async function getTree() {
   // request
   tree.value = [
-    {
-      id: 32,
-      label: '关于',
-      pId: 0,
-      children: [
-        {
-          id: 2,
-          label: 'button1',
-          pId: 32
-        }
-      ]
-    },
-    {
-      id: 26,
-      label: '系统管理',
-      pId: 0,
-      children: [
-        {
-          id: 27,
-          label: 'API管理',
-          pId: 26,
-          children: [
-            {
-              id: 3,
-              label: 'B_refreshAPI',
-              pId: 27
-            }
-          ]
-        }
-      ]
-    }
+    { id: 1, label: 'API模块', pId: 0, children: [{ id: 2, label: '查看API模块', pId: 1 }] },
+    { id: 3, label: '基础模块', pId: 0, children: [{ id: 4, label: '获取token', pId: 3 }] }
   ];
 
-  const { error, data } = await fetchGetMenuButtonTree();
+  const { error, data } = await fetchGetApiTree();
 
   if (!error) {
     tree.value = data;
   }
 }
 
-const buttonIds = shallowRef<number[]>([]);
+const apiIds = shallowRef<number[]>([]);
 
 async function getChecks() {
   // console.log(props.roleId);
   // request
-  // checks.value = [1, 2, 3, 4, 5];
-  buttonIds.value = [1, 2, 3];
-  const { error, data } = await fetchGetRoleButton({ id: props.roleId });
+  apiIds.value = [1, 2, 3, 4, 5];
+
+  const { error, data } = await fetchGetRoleApi({ id: props.roleId });
   if (!error) {
-    buttonIds.value = data.buttonIds || [];
+    apiIds.value = data.apiIds || [];
   }
 }
 
 async function handleSubmit() {
-  // console.log(checks.value, props.roleId);
+  // console.log(apiIds.value, props.roleId);
   // request
-
-  const { error } = await fetchUpdateRoleButton({
+  const { error } = await fetchUpdateRoleApi({
     id: props.roleId,
-    buttonIds: buttonIds.value.filter(item => typeof item === 'number')
+    apiIds: apiIds.value.filter(item => typeof item === 'number')
   });
   if (!error) {
     window.$message?.success?.($t('common.modifySuccess'));
@@ -106,7 +76,7 @@ async function handleSubmit() {
 
 function init() {
   getChecks();
-  getButtonTree();
+  getTree();
 }
 
 watch(visible, val => {
@@ -119,9 +89,10 @@ watch(visible, val => {
 <template>
   <NModal v-model:show="visible" :title="title" preset="card" class="w-480px">
     <NTree
-      v-model:checked-keys="buttonIds"
+      v-model:checked-keys="apiIds"
       :data="tree"
       key-field="id"
+      label-field="summary"
       default-expand-all
       block-line
       cascade

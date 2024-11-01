@@ -2,10 +2,12 @@
 import { computed, reactive, watch } from 'vue';
 import { useBoolean } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { fetchAddRole, fetchUpdateRole } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
 import MenuAuthModal from './menu-auth-modal.vue';
 import ButtonAuthModal from './button-auth-modal.vue';
+import ApiAuthModal from './/api-auth-modal.vue';
 
 defineOptions({
   name: 'RoleOperateDrawer'
@@ -34,6 +36,7 @@ const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 const { bool: menuAuthVisible, setTrue: openMenuAuthModal } = useBoolean();
 const { bool: buttonAuthVisible, setTrue: openButtonAuthModal } = useBoolean();
+const { bool: apiAuthVisible, setTrue: openApiAuthModal } = useBoolean();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
@@ -43,20 +46,21 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>;
+// type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'roleHome' | 'status'>;
 
-const model: Model = reactive(createDefaultModel());
+const model: Api.SystemManage.RoleUpdateParams = reactive(createDefaultModel());
 
-function createDefaultModel(): Model {
+function createDefaultModel(): Api.SystemManage.RoleAddParams {
   return {
     roleName: '',
     roleCode: '',
     roleDesc: '',
+    roleHome: '',
     status: null
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'roleDesc'>;
+type RuleKey = Exclude<keyof Api.SystemManage.RoleAddParams, 'roleDesc' | 'roleHome'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
@@ -70,7 +74,6 @@ const isEdit = computed(() => props.operateType === 'edit');
 
 function handleInitModel() {
   Object.assign(model, createDefaultModel());
-
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
   }
@@ -83,7 +86,18 @@ function closeDrawer() {
 async function handleSubmit() {
   await validate();
   // request
-  window.$message?.success($t('common.updateSuccess'));
+  if (props.operateType === 'add') {
+    const { error } = await fetchAddRole(model);
+    if (!error) {
+      window.$message?.success($t('common.addSuccess'));
+    }
+  } else if (props.operateType === 'edit') {
+    const { error } = await fetchUpdateRole(model);
+    if (!error) {
+      window.$message?.success($t('common.updateSuccess'));
+    }
+  }
+
   closeDrawer();
   emit('submitted');
 }
@@ -117,9 +131,11 @@ watch(visible, () => {
       </NForm>
       <NSpace v-if="isEdit">
         <NButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</NButton>
-        <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" />
+        <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" :role-home="model.roleHome" />
         <NButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</NButton>
         <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" />
+        <NButton @click="openApiAuthModal">{{ $t('page.manage.role.apiAuth') }}</NButton>
+        <ApiAuthModal v-model:visible="apiAuthVisible" :role-id="roleId" />
       </NSpace>
       <template #footer>
         <NSpace :size="16">

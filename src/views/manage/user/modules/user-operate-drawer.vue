@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { fetchGetAllRoles } from '@/service/api';
+import { fetchAddUser, fetchGetRoleList, fetchUpdateUser } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -39,16 +39,12 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<
-  Api.SystemManage.User,
-  'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
->;
+const model: Api.SystemManage.UserUpdateParams = reactive(createDefaultModel());
 
-const model: Model = reactive(createDefaultModel());
-
-function createDefaultModel(): Model {
+function createDefaultModel(): Api.SystemManage.UserUpdateParams {
   return {
     userName: '',
+    password: '',
     userGender: null,
     nickName: '',
     userPhone: '',
@@ -58,34 +54,26 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'userName' | 'status'>;
+type RuleKey = Extract<keyof Api.SystemManage.UserUpdateParams, 'userName' | 'password' | 'status'>;
 
-const rules: Record<RuleKey, App.Global.FormRule> = {
+const rules = ref<Record<RuleKey, App.Global.FormRule>>({
   userName: defaultRequiredRule,
+  password: defaultRequiredRule,
   status: defaultRequiredRule
-};
+});
 
 /** the enabled role options */
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
 async function getRoleOptions() {
-  const { error, data } = await fetchGetAllRoles();
+  const { error, data } = await fetchGetRoleList({ status: '1' });
 
   if (!error) {
-    const options = data.map(item => ({
+    const options = data.records.map(item => ({
       label: item.roleName,
       value: item.roleCode
     }));
-
-    // the mock data does not have the roleCode, so fill it
-    // if the real request, remove the following code
-    const userRoleOptions = model.userRoles.map(item => ({
-      label: item,
-      value: item
-    }));
-    // end
-
-    roleOptions.value = [...userRoleOptions, ...options];
+    roleOptions.value = options;
   }
 }
 
@@ -94,6 +82,12 @@ function handleInitModel() {
 
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
+  }
+
+  if (props.operateType === 'add') {
+    rules.value.password.required = true;
+  } else if (props.operateType === 'edit') {
+    rules.value.password.required = false;
   }
 }
 
@@ -104,7 +98,19 @@ function closeDrawer() {
 async function handleSubmit() {
   await validate();
   // request
-  window.$message?.success($t('common.updateSuccess'));
+
+  if (props.operateType === 'add') {
+    const { error } = await fetchAddUser(model);
+    if (!error) {
+      window.$message?.success($t('common.addSuccess'));
+    }
+  } else if (props.operateType === 'edit') {
+    const { error } = await fetchUpdateUser(model);
+    if (!error) {
+      window.$message?.success($t('common.updateSuccess'));
+    }
+  }
+
   closeDrawer();
   emit('submitted');
 }
@@ -124,6 +130,9 @@ watch(visible, () => {
       <NForm ref="formRef" :model="model" :rules="rules">
         <NFormItem :label="$t('page.manage.user.userName')" path="userName">
           <NInput v-model:value="model.userName" :placeholder="$t('page.manage.user.form.userName')" />
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.user.password')" path="password">
+          <NInput v-model:value="model.password" :placeholder="$t('page.manage.user.form.password')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userGender')" path="userGender">
           <NRadioGroup v-model:value="model.userGender">

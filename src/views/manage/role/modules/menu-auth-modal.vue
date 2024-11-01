@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef, watch } from 'vue';
 import { $t } from '@/locales';
-import { fetchGetAllPages, fetchGetMenuTree } from '@/service/api';
+import { fetchGetAllPages, fetchGetMenuTree, fetchGetRoleMenu, fetchUpdateRoleMenu } from '@/service/api';
 
 defineOptions({
   name: 'MenuAuthModal'
@@ -10,6 +10,7 @@ defineOptions({
 interface Props {
   /** the roleId */
   roleId: number;
+  roleHome: string;
 }
 
 const props = defineProps<Props>();
@@ -25,17 +26,12 @@ function closeModal() {
 const title = computed(() => $t('common.edit') + $t('page.manage.role.menuAuth'));
 
 const home = shallowRef('');
-
-async function getHome() {
-  console.log(props.roleId);
-
-  home.value = 'home';
-}
+home.value = 'home';
 
 async function updateHome(val: string) {
   // request
-
   home.value = val;
+  await fetchUpdateRoleMenu({ id: props.roleId, roleHome: val });
 }
 
 const pages = shallowRef<string[]>([]);
@@ -59,7 +55,7 @@ const pageSelectOptions = computed(() => {
 
 const tree = shallowRef<Api.SystemManage.MenuTree[]>([]);
 
-async function getTree() {
+async function getMenuTree() {
   const { error, data } = await fetchGetMenuTree();
 
   if (!error) {
@@ -70,25 +66,33 @@ async function getTree() {
 const checks = shallowRef<number[]>([]);
 
 async function getChecks() {
-  console.log(props.roleId);
+  // console.log(props.roleId);
   // request
   checks.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+
+  const { error, data } = await fetchGetRoleMenu({ id: props.roleId });
+  if (!error) {
+    checks.value = data.menuIds || [];
+    home.value = data.roleHome || props.roleHome;
+  }
 }
 
-function handleSubmit() {
-  console.log(checks.value, props.roleId);
+async function handleSubmit() {
+  // console.log(checks.value, props.roleId);
   // request
 
-  window.$message?.success?.($t('common.modifySuccess'));
+  const { error } = await fetchUpdateRoleMenu({ id: props.roleId, roleHome: home.value, menuIds: checks.value });
+  if (!error) {
+    window.$message?.success?.($t('common.modifySuccess'));
+  }
 
   closeModal();
 }
 
 function init() {
-  getHome();
-  getPages();
-  getTree();
   getChecks();
+  getPages();
+  getMenuTree();
 }
 
 watch(visible, val => {
@@ -108,6 +112,7 @@ watch(visible, val => {
       v-model:checked-keys="checks"
       :data="tree"
       key-field="id"
+      cascade
       checkable
       expand-on-click
       virtual-scroll

@@ -4,14 +4,22 @@ declare namespace App {
   namespace Theme {
     type ColorPaletteNumber = import('@sa/color').ColorPaletteNumber;
 
+    /** Theme token */
+    type ThemeToken = {
+      colors: ThemeTokenColor;
+      boxShadow: {
+        header: string;
+        sider: string;
+        tab: string;
+      };
+    };
+
     /** Theme setting */
     interface ThemeSetting {
       /** Theme scheme */
       themeScheme: UnionKey.ThemeScheme;
       /** grayscale mode */
       grayscale: boolean;
-      /** colour weakness mode */
-      colourWeakness: boolean;
       /** Whether to recommend color */
       recommendColor: boolean;
       /** Theme color */
@@ -22,16 +30,10 @@ declare namespace App {
       isInfoFollowPrimary: boolean;
       /** Layout */
       layout: {
-        /** Layout mode */
+        /** 布局方式 */
         mode: UnionKey.ThemeLayoutMode;
-        /** Scroll mode */
+        /** 滚动模式 */
         scrollMode: UnionKey.ThemeScrollMode;
-        /**
-         * Whether to reverse the horizontal mix
-         *
-         * if true, the vertical child level menus in left and horizontal first level menus in top
-         */
-        reverseHorizontalMix?: boolean;
       };
       /** Page */
       page: {
@@ -54,7 +56,7 @@ declare namespace App {
       };
       /** Tab */
       tab: {
-        /** Whether to show the tab */
+        /** 是否显示选项卡 */
         visible: boolean;
         /**
          * Whether to cache the tab
@@ -67,7 +69,7 @@ declare namespace App {
         /** Tab mode */
         mode: UnionKey.ThemeTabMode;
       };
-      /** Fixed header and tab */
+      /** 固定标题和选项卡 */
       fixedHeaderAndTab: boolean;
       /** Sider */
       sider: {
@@ -86,7 +88,7 @@ declare namespace App {
       };
       /** Footer */
       footer: {
-        /** Whether to show the footer */
+        /** 是否显示页脚 */
         visible: boolean;
         /** Whether fixed the footer */
         fixed: boolean;
@@ -94,20 +96,6 @@ declare namespace App {
         height: number;
         /** Whether float the footer to the right when the layout is 'horizontal-mix' */
         right: boolean;
-      };
-      /** Watermark */
-      watermark?: {
-        /** Whether to show the watermark */
-        visible: boolean;
-        /** Watermark text */
-        text: string;
-      };
-      /** define some theme settings tokens, will transform to css variables */
-      tokens: {
-        light: ThemeSettingToken;
-        dark?: {
-          [K in keyof ThemeSettingToken]?: Partial<ThemeSettingToken[K]>;
-        };
       };
     }
 
@@ -130,33 +118,14 @@ declare namespace App {
 
     type BaseToken = Record<string, Record<string, string>>;
 
-    interface ThemeSettingTokenColor {
-      /** the progress bar color, if not set, will use the primary color */
-      nprogress?: string;
+    interface ThemeTokenColor extends ThemePaletteColor {
+      nprogress: string;
       container: string;
       layout: string;
       inverted: string;
-      'base-text': string;
+      base_text: string;
+      [key: string]: string;
     }
-
-    interface ThemeSettingTokenBoxShadow {
-      header: string;
-      sider: string;
-      tab: string;
-    }
-
-    interface ThemeSettingToken {
-      colors: ThemeSettingTokenColor;
-      boxShadow: ThemeSettingTokenBoxShadow;
-    }
-
-    type ThemeTokenColor = ThemePaletteColor & ThemeSettingTokenColor;
-
-    /** Theme token CSS variables */
-    type ThemeTokenCSSVars = {
-      colors: ThemeTokenColor & { [key: string]: string };
-      boxShadow: ThemeSettingTokenBoxShadow & { [key: string]: string };
-    };
   }
 
   /** Global namespace */
@@ -179,7 +148,7 @@ declare namespace App {
     }
 
     /** The global menu */
-    type Menu = {
+    interface Menu {
       /**
        * The menu key
        *
@@ -198,7 +167,7 @@ declare namespace App {
       icon?: () => VNode;
       /** The menu children */
       children?: Menu[];
-    };
+    }
 
     type Breadcrumb = Omit<Menu, 'children'> & {
       options?: Breadcrumb[];
@@ -293,6 +262,8 @@ declare namespace App {
         addSuccess: string;
         backToHome: string;
         batchDelete: string;
+        test: string;
+        testSuccess: string;
         cancel: string;
         close: string;
         check: string;
@@ -306,6 +277,7 @@ declare namespace App {
         edit: string;
         warning: string;
         error: string;
+        view: string;
         index: string;
         keywordSearch: string;
         logout: string;
@@ -317,6 +289,7 @@ declare namespace App {
         operate: string;
         pleaseCheckValue: string;
         refresh: string;
+        refreshAPI: string;
         reset: string;
         search: string;
         switch: string;
@@ -385,7 +358,7 @@ declare namespace App {
         watermark: {
           visible: string;
           text: string;
-        };
+        },
         themeDrawerTitle: string;
         pageFunTitle: string;
         configOperation: {
@@ -560,10 +533,160 @@ declare namespace App {
             editRole: string;
             menuAuth: string;
             buttonAuth: string;
+            apiAuth: string;
+          };
+          database: {
+            title: string;
+            databaseName: string;
+            databaseType: string;
+            databaseHost: string;
+            databasePort: string;
+            databaseDatabase: string;
+            databaseUser: string;
+            password: string;
+            createBy: string;
+            databaseDesc: string;
+            status: string;
+            addDatabase: string;
+            editDatabase: string;
+            form: {
+              databaseName: string;
+              databaseType: string;
+              databaseHost: string;
+              databasePort: string;
+              databaseDatabase: string;
+              databaseUser: string;
+              password: string;
+              status: string;
+              databaseDesc: string;
+              createBy: string;
+            }
+          };
+          dataModel: {
+            title: string;
+            dataModelName: string;
+            dataModelDesc: string;
+            dataDomain: string;
+            topicDomain: string;
+            status: string;
+            sqlContent: string;
+            createBy: string;
+            createTime: string;
+            filter: string;
+            dataPreview: string;
+            addDataModel: string;
+            editDataModel: string;
+            databaseSelect: string;
+            tableName: string;
+            form: {
+              dataModelName: string;
+              dataModelDesc: string;
+              dataDomain: string;
+              topicDomain: string;
+              sqlContent: string;
+              status: string;
+              createBy: string;
+              databaseSelect: string;
+              tableName: string;
+            }
+          };
+          log: {
+            title: string;
+            logType: string;
+            logUser: string;
+            logDetailType: string;
+            requestUrl: string;
+            createTime: string;
+            responseCode: string;
+            form: {
+              logType: string;
+              logUser: string;
+              logDetailType: string;
+              requestUrl: string;
+              createTime: string;
+              responseCode: string;
+            };
+            viewLog: string;
+            logDetailTypes: {
+              SystemStart: string;
+              SystemStop: string;
+              UserLoginSuccess: string;
+              UserAuthRefreshTokenSuccess: string;
+              UserLoginGetUserInfo: string;
+              UserLoginUserNameVaild: string;
+              UserLoginErrorPassword: string;
+              UserLoginForbid: string;
+              ApiGetList: string;
+              ApiGetTree: string;
+              ApiRefresh: string;
+              ApiGetOne: string;
+              ApiCreateOne: string;
+              ApiUpdateOne: string;
+              ApiDeleteOne: string;
+              ApiBatchDelete: string;
+              MenuGetList: string;
+              MenuGetTree: string;
+              MenuGetPages: string;
+              MenuGetButtonsTree: string;
+              MenuGetOne: string;
+              MenuCreateOne: string;
+              MenuUpdateOne: string;
+              MenuDeleteOne: string;
+              MenuBatchDeleteOne: string;
+              RoleGetList: string;
+              RoleGetMenus: string;
+              RoleUpdateMenus: string;
+              RoleGetButtons: string;
+              RoleUpdateButtons: string;
+              RoleGetApis: string;
+              RoleUpdateApis: string;
+              RoleGetOne: string;
+              RoleCreateOne: string;
+              RoleUpdateOne: string;
+              RoleDeleteOne: string;
+              RoleBatchDeleteOne: string;
+              UserGetList: string;
+              UserGetOne: string;
+              UserCreateOne: string;
+              UserUpdateOne: string;
+              UserDeleteOne: string;
+              UserBatchDeleteOne: string;
+            };
+            logTypes: {
+              ApiLog: string;
+              UserLog: string;
+              AdminLog: string;
+              SystemLog: string;
+            };
+          };
+          api: {
+            title: string;
+            path: string;
+            method: string;
+            summary: string;
+            tags: string;
+            status: string;
+            form: {
+              path: string;
+              method: string;
+              summary: string;
+              tags: string;
+              status: string;
+            };
+            addApi: string;
+            editApi: string;
+            methods: {
+              GET: string;
+              POST: string;
+              PUT: string;
+              PATCH: string;
+              DELETE: string;
+            };
           };
           user: {
             title: string;
             userName: string;
+            password: string;
             userGender: string;
             nickName: string;
             userPhone: string;
@@ -572,6 +695,7 @@ declare namespace App {
             userRole: string;
             form: {
               userName: string;
+              password: string;
               userGender: string;
               nickName: string;
               userPhone: string;
@@ -584,6 +708,7 @@ declare namespace App {
             gender: {
               male: string;
               female: string;
+              unknow: string;
             };
           };
           menu: {
@@ -685,8 +810,8 @@ declare namespace App {
 
     type GetI18nKey<T extends Record<string, unknown>, K extends keyof T = keyof T> = K extends string
       ? T[K] extends Record<string, unknown>
-        ? `${K}.${GetI18nKey<T[K]>}`
-        : K
+      ? `${K}.${GetI18nKey<T[K]>}`
+      : K
       : never;
 
     type I18nKey = GetI18nKey<Schema>;

@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetUserList } from '@/service/api';
+import { fetchBatchDeleteUser, fetchDeleteUser, fetchGetUserList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { enableStatusRecord, userGenderRecord } from '@/constants/business';
@@ -10,17 +10,7 @@ import UserSearch from './modules/user-search.vue';
 
 const appStore = useAppStore();
 
-const {
-  columns,
-  columnChecks,
-  data,
-  getData,
-  getDataByPage,
-  loading,
-  mobilePagination,
-  searchParams,
-  resetSearchParams
-} = useTable({
+const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetUserList,
   showTotal: true,
   apiParams: {
@@ -30,6 +20,7 @@ const {
     // the value can not be undefined, otherwise the property in Form will not be reactive
     status: null,
     userName: null,
+    password: null,
     userGender: null,
     nickName: null,
     userPhone: null,
@@ -65,7 +56,8 @@ const {
 
         const tagMap: Record<Api.SystemManage.UserGender, NaiveUI.ThemeColor> = {
           1: 'primary',
-          2: 'error'
+          2: 'error',
+          3: 'info'
         };
 
         const label = $t(userGenderRecord[row.userGender]);
@@ -151,16 +143,18 @@ const {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await fetchBatchDeleteUser({ ids: checkedRowKeys.value });
+  if (!error) {
+    onBatchDeleted();
+  }
 }
 
-function handleDelete(id: number) {
+async function handleDelete(id: number) {
   // request
-  console.log(id);
-
-  onDeleted();
+  const { error } = await fetchDeleteUser({ id });
+  if (!error) {
+    onDeleted();
+  }
 }
 
 function edit(id: number) {
@@ -170,37 +164,17 @@ function edit(id: number) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
+    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
     <NCard :title="$t('page.manage.user.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
-        <TableHeaderOperation
-          v-model:columns="columnChecks"
-          :disabled-delete="checkedRowKeys.length === 0"
-          :loading="loading"
-          @add="handleAdd"
-          @delete="handleBatchDelete"
-          @refresh="getData"
-        />
+        <TableHeaderOperation v-model:columns="columnChecks" :disabled-delete="checkedRowKeys.length === 0"
+          :loading="loading" @add="handleAdd" @delete="handleBatchDelete" @refresh="getData" />
       </template>
-      <NDataTable
-        v-model:checked-row-keys="checkedRowKeys"
-        :columns="columns"
-        :data="data"
-        size="small"
-        :flex-height="!appStore.isMobile"
-        :scroll-x="962"
-        :loading="loading"
-        remote
-        :row-key="row => row.id"
-        :pagination="mobilePagination"
-        class="sm:h-full"
-      />
-      <UserOperateDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getDataByPage"
-      />
+      <NDataTable v-model:checked-row-keys="checkedRowKeys" :columns="columns" :data="data" size="small"
+        :flex-height="!appStore.isMobile" :scroll-x="962" :loading="loading" remote :row-key="row => row.id"
+        :pagination="mobilePagination" class="sm:h-full" />
+      <UserOperateDrawer v-model:visible="drawerVisible" :operate-type="operateType" :row-data="editingData"
+        @submitted="getData" />
     </NCard>
   </div>
 </template>

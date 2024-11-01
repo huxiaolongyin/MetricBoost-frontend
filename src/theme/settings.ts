@@ -13,7 +13,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
   },
   isInfoFollowPrimary: true,
   layout: {
-    mode: 'vertical',
+    mode: 'vertical-mix',
     scrollMode: 'content',
     reverseHorizontalMix: false
   },
@@ -36,7 +36,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
   },
   fixedHeaderAndTab: true,
   sider: {
-    inverted: false,
+    inverted: true,
     width: 220,
     collapsedWidth: 64,
     mixWidth: 90,
@@ -51,7 +51,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
   },
   watermark: {
     visible: false,
-    text: 'SoybeanAdmin'
+    text: 'Metric Boost'
   },
   tokens: {
     light: {
@@ -85,6 +85,6 @@ export const themeSettings: App.Theme.ThemeSetting = {
 export const overrideThemeSettings: Partial<App.Theme.ThemeSetting> = {
   watermark: {
     visible: false,
-    text: 'SoybeanAdmin'
+    text: 'Metric Boost'
   }
 };

@@ -109,24 +109,24 @@ declare namespace Api {
     }>;
 
     /** 角色添加参数 */
-    type RoleAddParams = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'roleHome' | 'status'>;
+    type RoleAddParams = Pick<Role, 'roleName' | 'roleCode' | 'roleDesc' | 'roleHome' | 'status'>;
 
     /** role update params */
-    type RoleUpdateParams = CommonType.RecordNullable<Pick<Api.SystemManage.Role, 'id'>> & RoleAddParams;
+    type RoleUpdateParams = CommonType.RecordNullable<Pick<Role, 'id'>> & RoleAddParams;
 
     /** 角色搜索参数 */
     type RoleSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'status'> & CommonSearchParams
+      Pick<Role, 'roleName' | 'roleCode' | 'status'> & CommonSearchParams
     >;
 
     /** role list */
     type RoleList = Common.PaginatingQueryRecord<Role>;
 
     /** role authorized */
-    type RoleAuthorized = Api.SystemManage.Role & { menuIds: number[]; apiIds: number[]; buttonIds: number[] };
+    type RoleAuthorized = Role & { menuIds: number[]; apiIds: number[]; buttonIds: number[] };
 
     /** get role authorized params */
-    type RoleAuthorizedParams = Pick<Api.SystemManage.RoleAuthorized, 'id'>;
+    type RoleAuthorizedParams = Pick<RoleAuthorized, 'id'>;
 
     /** role authorized list */
     type RoleAuthorizedList = CommonType.RecordNullable<RoleAuthorized>;
@@ -158,14 +158,14 @@ declare namespace Api {
     }>;
 
     /** api add params */
-    type ApiAddParams = Pick<Api.SystemManage.Api, 'path' | 'method' | 'summary' | 'tags' | 'status'>;
+    type ApiAddParams = Pick<Api, 'path' | 'method' | 'summary' | 'tags' | 'status'>;
 
     /** api update params */
-    type ApiUpdateParams = CommonType.RecordNullable<Pick<Api.SystemManage.Api, 'id'>> & ApiAddParams;
+    type ApiUpdateParams = CommonType.RecordNullable<Pick<Api, 'id'>> & ApiAddParams;
 
     /** api search params */
     type ApiSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.Api, 'path' | 'method' | 'summary' | 'tags' | 'status'> & CommonSearchParams
+      Pick<Api, 'path' | 'method' | 'summary' | 'tags' | 'status'> & CommonSearchParams
     >;
 
     /** api list */
@@ -253,17 +253,17 @@ declare namespace Api {
 
     /** log add params */
     type LogAddParams = Pick<
-      Api.SystemManage.Log,
+      Log,
       'logType' | 'logUser' | 'logDetailType' | 'requestUrl' | 'createTime' | 'responseCode'
     >;
 
     /** log update params */
-    type LogUpdateParams = CommonType.RecordNullable<Pick<Api.SystemManage.Log, 'id'>> & Api.SystemManage.LogAddParams;
+    type LogUpdateParams = CommonType.RecordNullable<Pick<Log, 'id'>> & LogAddParams;
 
     /** log search params */
     type LogSearchParams = CommonType.RecordNullable<
       Pick<
-        Api.SystemManage.Log,
+        Log,
         'logType' | 'logUser' | 'logDetailType' | 'requestUrl' | 'createTime' | 'responseCode'
       > &
       CommonSearchParams & { timeRange: string }
@@ -301,17 +301,17 @@ declare namespace Api {
 
     /** user add params */
     type UserAddParams = Pick<
-      Api.SystemManage.User,
+      User,
       'userName' | 'password' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
     >;
 
     /** user update params */
-    type UserUpdateParams = CommonType.RecordNullable<Pick<Api.SystemManage.User, 'id'>> & UserAddParams;
+    type UserUpdateParams = CommonType.RecordNullable<Pick<User, 'id'>> & UserAddParams;
 
     /** user search params */
     type UserSearchParams = CommonType.RecordNullable<
       Pick<
-        Api.SystemManage.User,
+        User,
         'userName' | 'password' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'status'
       > &
       CommonSearchParams
@@ -387,7 +387,7 @@ declare namespace Api {
 
     /** menu add params */
     // type MenuAddParams = Pick<
-    //   Api.SystemManage.Menu,
+    //   Menu,
     //   | 'parentId'
     //   | 'menuType'
     //   | 'menuName'
@@ -400,7 +400,7 @@ declare namespace Api {
     //   | 'children'
     // >;
     type MenuAddParams = Pick<
-      Api.SystemManage.Menu,
+      Menu,
       | 'menuType'
       | 'menuName'
       | 'routeName'
@@ -420,15 +420,15 @@ declare namespace Api {
       | 'multiTab'
       | 'fixedIndexInTab'
     > & {
-      query: NonNullable<Api.SystemManage.Menu['query']>;
-      buttons: NonNullable<Api.SystemManage.Menu['buttons']>;
+      query: NonNullable<Menu['query']>;
+      buttons: NonNullable<Menu['buttons']>;
       layout: string;
       page: string;
       pathParam: string;
     };
 
     /** menu update params */
-    type MenuUpdateParams = CommonType.RecordNullable<Pick<Api.SystemManage.Menu, 'id'>> & MenuAddParams;
+    type MenuUpdateParams = CommonType.RecordNullable<Pick<Menu, 'id'>> & MenuAddParams;
 
     /** menu list */
     type MenuList = Common.PaginatingQueryRecord<Menu>;
@@ -463,17 +463,17 @@ declare namespace Api {
 
     /** 数据库搜索参数 */
     type DatabaseSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.Database, 'databaseName' | 'databaseType' | 'createBy' | 'status'> & CommonSearchParams
+      Pick<Database, 'databaseName' | 'databaseType' | 'createBy' | 'status'> & CommonSearchParams
     >;
 
     /** 数据库添加参数 */
-    type DatabaseAddParams = Pick<Api.SystemManage.Database, 'databaseName' | 'databaseType' | 'databaseHost' | 'databasePort' | 'databaseUser' | 'password' | 'databaseDatabase' | 'databaseDesc' | 'createBy' | 'status'>;
+    type DatabaseAddParams = CommonType.RecordNullable<Omit<Database, 'id' | 'createTime' | 'updateTime' | 'updateBy'>>;
 
     /** 数据库更新参数 */
-    type DatabaseUpdateParams = CommonType.RecordNullable<Pick<Api.SystemManage.Database, 'id'>> & DatabaseAddParams;
+    type DatabaseUpdateParams = CommonType.RecordNullable<Pick<Database, 'id'>> & DatabaseAddParams;
 
     /** 数据库连接测试参数 */
-    type DatabaseTestParams = CommonType.RecordNullable<Pick<Api.SystemManage.Database, 'id'>> & DatabaseAddParams;
+    type DatabaseTestParams = CommonType.RecordNullable<Pick<Database, 'id'>> & DatabaseAddParams;
 
 
     // 数据域
@@ -485,13 +485,13 @@ declare namespace Api {
     type DataDomainList = Common.PaginatingQueryRecord<DataDomain>;
 
     /** 数据域搜索参数 */
-    type DataDomainSearchParams = CommonType.RecordNullable<Pick<Api.SystemManage.DataDomain, 'dataDomainName' | 'createBy'> & CommonSearchParams>;
+    type DataDomainSearchParams = CommonType.RecordNullable<Pick<DataDomain, 'dataDomainName' | 'createBy'> & CommonSearchParams>;
 
     /** 数据域添加参数 */
-    type DataDomainAddParams = Pick<Api.SystemManage.DataDomain, 'dataDomainName' | 'datadomainDesc' | 'createBy'>;
+    type DataDomainAddParams = Pick<DataDomain, 'dataDomainName' | 'datadomainDesc' | 'createBy'>;
 
     /** 数据域更新参数 */
-    type DataDomainUpdateParams = CommonType.RecordNullable<Pick<Api.SystemManage.DataDomain, 'id'>> & DataDomainAddParams;
+    type DataDomainUpdateParams = CommonType.RecordNullable<Pick<DataDomain, 'id'>> & DataDomainAddParams;
 
     // 主题域
     type TopicDomain = Common.CommonRecord<{
@@ -502,41 +502,47 @@ declare namespace Api {
     type TopicDomainList = Common.PaginatingQueryRecord<TopicDomain>;
 
     /** 主题域搜索参数 */
-    type TopicDomainSearchParams = CommonType.RecordNullable<Pick<Api.SystemManage.TopicDomain, 'topicDomainName' | 'createBy'> & CommonSearchParams>;
+    type TopicDomainSearchParams = CommonType.RecordNullable<Pick<TopicDomain, 'topicDomainName' | 'createBy'> & CommonSearchParams>;
 
     /** 主题域添加参数 */
-    type TopicDomainAddParams = Pick<Api.SystemManage.TopicDomain, 'topicDomainName' | 'topicDomainDesc' | 'createBy'>;
+    type TopicDomainAddParams = Pick<TopicDomain, 'topicDomainName' | 'topicDomainDesc' | 'createBy'>;
 
     /** 主题域更新参数 */
-    type TopicDomainUpdateParams = CommonType.RecordNullable<Pick<Api.SystemManage.TopicDomain, 'id'>> & TopicDomainAddParams;
+    type TopicDomainUpdateParams = CommonType.RecordNullable<Pick<TopicDomain, 'id'>> & TopicDomainAddParams;
 
     // 主题模型
     type DataModel = Common.CommonRecord<{
-      dataModelName: string;
-      dataModelDesc: string;
-      sqlContent: string;
-      dataDomain: string;
-      topicDomain: string;
-      database: string;
+      dataModelName: string; // 模型名称
+      dataModelDesc: string; // 模型描述
+      database: number; // 数据库ID
+      tableName: string;  // 表名
+      dataDomain: number; // 数据域ID
+      topicDomain: number; // 主题域ID
+      fieldConf: TableColumns[]
     }>
 
     type DataModelList = Common.PaginatingQueryRecord<DataModel>;
 
+    type DomainList = {
+      dataDomainList: number[],
+      topicDomainList: number[]
+    }
     /** 主题模型搜索参数 */
-    type DataModelSearchParams = CommonType.RecordNullable<Pick<Api.SystemManage.DataModel, 'dataModelName' | 'dataDomain' | 'topicDomain' | 'createBy' | 'status'> & CommonSearchParams>;
+    type DataModelSearchParams = CommonType.RecordNullable<Pick<DataModel, 'dataModelName' | 'createBy' | 'status'> & CommonSearchParams> & DomainList;
 
-    /** 主题模型添加参数 */
-    type DataModelAddParams = Pick<Api.SystemManage.DataModel, 'dataModelName' | 'dataModelDesc' | 'sqlContent' | 'dataDomain' | 'topicDomain' | "database" | 'createBy' | 'status'>;
+    // 主题模型添加参数，将 fieldConf 改为string类型，好对应接口发送
+    type DataModelAddParams = CommonType.RecordNullable<Omit<DataModel, 'fieldConf'> & {
+      fieldConf: string
+    }>;
 
     /** 主题模型更新参数 */
-    type DataModelUpdateParams = CommonType.RecordNullable<Pick<Api.SystemManage.DataModel, 'id'>> & DataModelAddParams;
+    type DataModelUpdateParams = CommonType.RecordNullable<Pick<DataModel, 'id'>> & DataModelAddParams;
 
     // 数据预览参数
     type DataPreviewSearchParams = CommonType.RecordNullable<{
       databaseId: number;
       tableName: string;
     } & CommonSearchParams>;
-
 
 
     type DataPreview = Common.CommonRecord<{
@@ -553,6 +559,32 @@ declare namespace Api {
 
     type TableList = Common.PaginatingQueryRecord<Table>;
 
-    type TableSearchParams = { databaseId: number }
+    type TableSearchParams = { database: number }
+
+    // 定义数据模型的创建、修改的表单类型
+    interface DataModelForm {
+      currentStep: number;
+      stepOne: Pick<CommonType.RecordNullable<DataModel>, 'database' | 'tableName'>
+      stepTwo: Pick<CommonType.RecordNullable<DataModel>, 'fieldConf'>
+      stepThree: Pick<CommonType.RecordNullable<DataModel>, 'dataModelName' | 'dataModelDesc' | 'dataDomain' | 'topicDomain' | 'status'>
+    }
+
+    // 定义获取数据字段信息的类型
+    interface TableColumnsSearchParams {
+      database: number;
+      tableName: string;
+    }
+
+    interface TableColumns {
+      columnName: string;
+      columnType: string;
+      columnComment: string;
+      semanticType: string | null;
+      dateFormat: string | null;
+      staticType: string | null;
+      isTag: Api.Common.EnableStatus;
+    }
+
+    type TableColumnsList = Common.PaginatingQueryRecord<TableColumns>;
   }
 }

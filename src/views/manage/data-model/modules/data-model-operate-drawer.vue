@@ -1,17 +1,44 @@
+<template>
+  <NModal v-model:show="visible" display-directive="show" transform-origin="center" class="h-3/4">
+    <NCard :title="title" :bordered="false" size="small" class="card-wrapper w-4/6 h-3/4">
+      <NSteps :current="currentStep" status="process" class="mb-10 ml-28">
+        <NStep title="选择数据" />
+        <NStep title="字段设置" />
+        <NStep title="模型信息" />
+      </NSteps>
+      <Step1 v-if="currentStep === 1" />
+      <Step2 v-if="currentStep === 2" />
+      <Step3 v-if="currentStep === 3" />
+      <template #footer>
+        <NFlex :size="16" justify="end">
+          <NButton v-if="currentStep > 1" @click="prevStep" class="w-20">上一个</NButton>
+          <NButton v-if="currentStep < 3" @click="nextStep" class="w-20">下一个</NButton>
+          <NButton v-if="currentStep === 3" @click="handleSubmit" class="w-20" type="primary">
+            确 认
+          </NButton>
+        </NFlex>
+      </template>
+    </NCard>
+  </NModal>
+</template>
+
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
-import { ref } from 'vue'
-import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { fetchUpdateDataModel, fetchAddDataModel } from '@/service/api';
-import { $t } from '@/locales';
+import { computed, watch } from "vue";
+import { useNaiveForm } from "@/hooks/common/form";
+import { $t } from "@/locales";
+import Step1 from "./step1.vue";
+import Step2 from "./step2.vue";
+import Step3 from "./step3.vue";
+import { useDataModelFormStore } from "@/store/modules/model";
 import { useAuthStore } from '@/store/modules/auth';
-import type { StepsProps } from 'naive-ui'
-import Step1 from './step1.vue';
+import { fetchAddDataModel, fetchUpdateDataModel } from '@/service/api';
+
+// 用户状态，用于获取用户名
+const authStore = useAuthStore();
 
 defineOptions({
-  name: 'DataModelOperateDrawer'
+  name: "DataModelOperateDrawer",
 });
-
 
 // 定义传入参数
 interface Props {
@@ -20,144 +47,101 @@ interface Props {
 }
 const props = defineProps<Props>();
 
+console.log(props.rowData)
 // 定义传出参数
 interface Emits {
-  (e: 'submitted'): void;
+  (e: "submitted"): void;
+  (e: "newData"): void;
 }
 const emit = defineEmits<Emits>();
 
 // 设置弹窗标题
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
-    add: $t('page.manage.dataModel.addDataModel'),
-    edit: $t('page.manage.dataModel.editDataModel')
+    add: $t("page.manage.dataModel.addDataModel"),
+    edit: $t("page.manage.dataModel.editDataModel"),
   };
   return titles[props.operateType];
 });
 
-// 获取用户登录状态
-const authStore = useAuthStore();
 
-// 定义表单参数
-const visible = defineModel<boolean>('visible', {
-  default: false
+// 双向绑定父组件，用于处理对话框的显示
+const visible = defineModel<boolean>("visible", {
+  default: false,
 });
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
-const { defaultRequiredRule } = useFormRules();
+
+// 步骤切换模块
+const dataModelFormStore = useDataModelFormStore();
+const currentStep = computed(() => dataModelFormStore.currentStep);
+const nextStep = () => dataModelFormStore.nextStep();
+const prevStep = () => dataModelFormStore.prevStep();
 
 
-const model: Api.SystemManage.DataModelUpdateParams = reactive(createDefaultModel());
 
-function createDefaultModel(): Api.SystemManage.DataModelAddParams {
-  return {
-    database: '',
-    dataModelName: '',
-    dataModelDesc: '',
-    dataDomain: '',
-    topicDomain: '',
-    sqlContent: '',
-    status: null,
-    createBy: authStore.userInfo.userName,
-  };
-}
-
-type RuleKey = Exclude<keyof Api.SystemManage.DataModelAddParams, 'createBy'>;
-
-const rules: Record<RuleKey, App.Global.FormRule> = {
-  database: defaultRequiredRule,
-  dataModelName: defaultRequiredRule,
-  dataModelDesc: defaultRequiredRule,
-  dataDomain: defaultRequiredRule,
-  topicDomain: defaultRequiredRule,
-  sqlContent: defaultRequiredRule,
-  status: defaultRequiredRule,
-};
-
-// 初始化表单数据
-function handleInitModel() {
-  Object.assign(model, createDefaultModel());
-  if (props.operateType === 'edit' && props.rowData) {
-    Object.assign(model, props.rowData);
+// 表单提交
+const handleSubmit = async () => {
+  // 展开数据
+  const flattenObject = {
+    id: props.rowData?.id,
+    database: dataModelFormStore.stepOne.database,
+    tableName: dataModelFormStore.stepOne.tableName,
+    dataModelName: dataModelFormStore.stepThree.dataModelName,
+    dataModelDesc: dataModelFormStore.stepThree.dataModelDesc,
+    dataDomain: dataModelFormStore.stepThree.dataDomain,
+    topicDomain: dataModelFormStore.stepThree.topicDomain,
+    status: dataModelFormStore.stepThree.status,
+    fieldConf: JSON.stringify(dataModelFormStore.stepTwo.fieldConf),
+    createBy: authStore.userInfo.userName
   }
-}
+  // 验证
 
-function closeDrawer() {
-  visible.value = false;
-}
-
-async function handleSubmit() {
-  await validate();
-  // request
+  // 提交到接口
   if (props.operateType === 'add') {
-    const { error } = await fetchAddDataModel(model);
+    const { error } = await fetchAddDataModel(flattenObject);
     if (!error) {
       window.$message?.success($t('common.addSuccess'));
     }
   } else if (props.operateType === 'edit') {
-    const { error } = await fetchUpdateDataModel(model);
+    const { error } = await fetchUpdateDataModel(flattenObject);
     if (!error) {
       window.$message?.success($t('common.updateSuccess'));
     }
   }
-  closeDrawer();
-  emit('submitted');
-}
-const currentStatus = ref<StepsProps['status']>('process')
-const currentRef = ref<number | null>(1)
-const current = computed(() => currentRef.value || 0)
 
-// 点击上一步切换步骤
-const prev = () => {
-  if (currentRef.value === null)
-    currentRef.value = 1
-  if (currentRef.value > 1)
-    currentRef.value--
+  // 重置Store
+  dataModelFormStore.resetStore();
+
+  // 关闭窗口
+  visible.value = false;
+
+  // 刷新列表数据
+  emit('newData');
 }
 
-// 点击下一步切换步骤
-const next = () => {
-  if (currentRef.value === null)
-    currentRef.value = 1
-  if (currentRef.value < 3)
-    currentRef.value++
-}
-
-
-
+// 显示时加载数据
 watch(visible, () => {
   if (visible.value) {
-    handleInitModel();
+    // handleInitModel();
     restoreValidation();
+
+    // 如果是编辑，传入数据
+    if (props.operateType === 'edit') {
+      dataModelFormStore.updateFormData(props.rowData);
+    }
+    // 如果是新增，重置表单
+    else {
+      dataModelFormStore.resetStore();
+    }
   }
 });
 </script>
 
-<template>
-  <NModal v-model:show="visible" display-directive="show" transform-origin="center">
-    <NCard :title="title" :bordered="false" size="small" class="card-wrapper w-5/6 ">
-      <NSpace vertical class="steps" justify="center">
-        <NSteps :current="current" :status="currentStatus" class="mb-10">
-          <NStep title="选择数据" />
-          <NStep title="字段设置" />
-          <NStep title="模型信息" />
-        </NSteps>
-      </NSpace>
-      <Step1 v-show="current === 1" />
-      <template #footer>
-        <NSpace :size="16">
-          <NButton @click="prev">上一个</NButton>
-          <NButton @click="next">下一个</NButton>
-          <NButton type="primary" v-show="current === 3" @click="handleSubmit"> 确 认 </NButton>
-        </NSpace>
-      </template>
-    </NCard>
-  </NModal>
-</template>
 
 <style scoped>
 .steps {
-  max-width: 60%;
+  max-width: 85%;
   margin: 16px auto;
 }
 </style>

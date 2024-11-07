@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue';
-import { useBoolean } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { fetchAddDatabase, fetchUpdateDatabase, fetchTestDatabase } from '@/service/api';
 import { $t } from '@/locales';
@@ -47,9 +46,8 @@ const model: Api.SystemManage.DatabaseUpdateParams = reactive(createDefaultModel
 
 function createDefaultModel(): Api.SystemManage.DatabaseAddParams {
   return {
-    databaseId: null,
     databaseName: '',
-    databaseType: '',
+    databaseType: null,
     databaseHost: '',
     databasePort: 3306,
     databaseUser: '',

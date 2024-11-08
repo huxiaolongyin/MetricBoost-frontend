@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetDatabaseList, fetchDeleteDatabase } from '@/service/api';
+import { fetchDatabaseList, fetchDeleteDatabase } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -11,7 +11,7 @@ import DatabaseSearch from './modules/database-search.vue';
 const appStore = useAppStore();
 
 const { columns, columnChecks, data, loading, getData, mobilePagination, searchParams, resetSearchParams } = useTable({
-  apiFn: fetchGetDatabaseList,
+  apiFn: fetchDatabaseList,
   apiParams: {
     current: 1,
     size: 10,

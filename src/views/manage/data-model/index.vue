@@ -1,13 +1,13 @@
 <template>
-  <NGrid cols="7" x-gap="16" y-gap="16" responsive="screen" class="h-full">
+  <NGrid cols="6" x-gap="16" y-gap="16" responsive="screen" class="h-full">
 
     <!-- 左侧的筛选栏 -->
     <NGi span="1" class="h-full">
       <NCard :title="$t('page.manage.dataModel.filter')" :bordered="false" size="small" class="h-full">
-        <DomainFilter v-model:model="searchParams" :loading="loading" @search="getData" />
+        <DomainFilter v-model:model="searchParams" @search="getData" />
       </NCard>
     </NGi>
-    <NGi span="6" class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+    <NGi span="5" class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
 
       <!-- 顶部搜索栏 -->
       <DataModelSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
@@ -33,7 +33,7 @@
 
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from "naive-ui";
-import { fetchGetDataModelList, fetchDeleteDataModel } from "@/service/api";
+import { fetchDataModelList, fetchDeleteDataModel } from "@/service/api";
 import { useAppStore } from "@/store/modules/app";
 import { useTable, useTableOperate } from "@/hooks/common/table";
 import { $t } from "@/locales";
@@ -56,7 +56,7 @@ const {
   searchParams,
   resetSearchParams,
 } = useTable({
-  apiFn: fetchGetDataModelList,
+  apiFn: fetchDataModelList,
   apiParams: {
     current: 1,
     size: 10,

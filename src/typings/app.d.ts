@@ -510,6 +510,16 @@ declare namespace App {
             triggerAllRequest: string;
           };
         };
+        metric: {
+          formTile: {
+            modelForm: string;
+            metricForm: string;
+            sensitivityForm: string;
+            staticForm: string;
+            chartForm: string;
+            publishForm: string;
+          }
+        };
         manage: {
           common: {
             status: {

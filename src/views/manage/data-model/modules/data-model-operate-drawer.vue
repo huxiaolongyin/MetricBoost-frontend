@@ -47,7 +47,6 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-console.log(props.rowData)
 // 定义传出参数
 interface Emits {
   (e: "submitted"): void;

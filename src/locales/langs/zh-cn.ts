@@ -364,6 +364,16 @@ const local: App.I18n.Schema = {
         triggerAllRequest: '手动触发所有自动请求'
       }
     },
+    metric: {
+      formTile: {
+        modelForm: '模型配置',
+        metricForm: "指标配置",
+        sensitivityForm: "敏感度配置",
+        staticForm: "统计配置",
+        chartForm: "图表配置",
+        publishForm: "发布配置",
+      }
+    },
     manage: {
       common: {
         status: {

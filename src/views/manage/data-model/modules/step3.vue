@@ -43,7 +43,7 @@ const {
   fetchOptions: fetchDataDomainOptions
 } = useLoadOptions(
   () => fetchGetDataDomainList(),
-  'dataDomainName',
+  'domainName',
   'id')
 fetchDataDomainOptions()
 
@@ -54,7 +54,7 @@ const {
   fetchOptions: fetchTopicDomainOptions
 } = useLoadOptions(
   () => fetchGetTopicDomainList(),
-  'topicDomainName',
+  'domainName',
   'id')
 fetchTopicDomainOptions()
 

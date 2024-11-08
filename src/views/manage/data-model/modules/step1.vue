@@ -19,11 +19,10 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import type { DataTableColumns } from "naive-ui";
-import { fetchGetDatabaseList, fetchGetTableList, fetchDataPreview } from "@/service/api";
+import { fetchDatabaseList, fetchGetTableList, fetchDataPreview } from "@/service/api";
 import { useDataModelFormStore } from "@/store/modules/model";
 import type { FormRules } from 'naive-ui';
 import { useLoadOptions } from '@/hooks/common/option'
-import { status } from "nprogress";
 
 // 获取数据模型表单状态存储内容
 const dataModelFormStore = useDataModelFormStore();
@@ -48,7 +47,7 @@ const {
   loading: databaseLoading,
   fetchOptions: fetchDatabaseOptions
 } = useLoadOptions(
-  () => fetchGetDatabaseList({ status: '1' }),
+  () => fetchDatabaseList({ status: '1' }),
   'databaseName',
   'id')
 

@@ -1,10 +1,10 @@
 import { ref } from 'vue'
-
-// 通用类型定义
-export interface SelectOption {
-    label: string;
-    value: string | number;
-}
+import type { SelectOption } from 'naive-ui';
+// // 通用类型定义
+// export interface SelectOption {
+//     label: string;
+//     value: string | number;
+// }
 
 
 // 通用加载选项hook

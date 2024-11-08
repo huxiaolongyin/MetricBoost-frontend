@@ -20,7 +20,7 @@ const props = defineProps<{
 interface FormData {
   searchValue: string
   selectValue: string
-  showTypeValue: string
+  favoriteStatus: number | null
   sensitiveValue: string
   publishValue: string
 }
@@ -37,7 +37,7 @@ interface RadioGroup {
 const radioGroups: RadioGroup[] = [
   {
     radiotitle: '展示类型',
-    radioType: 'showTypeValue',
+    radioType: 'favoriteStatus',
     options: OPTIONS_CONFIG.showType
   },
   {

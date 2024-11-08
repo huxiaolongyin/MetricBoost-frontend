@@ -1,3 +1,5 @@
+// import { omit } from 'naive-ui/es/_utils';
+
 /**
  * Namespace Api
  *
@@ -43,6 +45,15 @@ declare namespace Api {
       /** record status */
       status: EnableStatus | null;
     } & T;
+
+    // 定义单个表单字段的类型
+    interface FormType<T> {
+      key: keyof T
+      label: string
+      component: any
+      props?: any
+      placeholder?: string
+    }
   }
 
   /**
@@ -80,6 +91,52 @@ declare namespace Api {
       routes: MenuRoute[];
       home: import('@elegant-router/types').LastLevelRouteKey;
     }
+  }
+  /**
+   * 命名空间系统管理
+   *
+   * 后端 API 模块：“Metric”
+   */
+  namespace Metric {
+    interface MetricData {
+      id: string;                // 唯一标识符
+      dataModel: number;         // 选用数据模型
+      businessScope: string;     // 业务口径
+      chineseName: string;       // 中文名
+      englishName: string;       // 英文名
+      alias: string;             // 别名
+      sensitivity: string;       // 敏感度
+      statisticalPeriod: string;  // 统计周期
+      chartType: 'line' | 'bar';  // 图表类型
+      chartDisplayDate: string;   // 图表显示日期
+      formatType: string;        // 格式化类型
+      favoriteStatus: number;     // 收藏状态
+      publishStatus: Api.Common.EnableStatus;      // 发布状态
+      tags: string[];
+      createBy: string;          // 创建人
+      data: Array<{
+        date: string;            // 数据日期，假设使用字符串表示日期
+        value: number;           // 数据值
+        [key: string]: any;
+      }>;
+    }
+
+    interface MetricFormFields {
+      modelForm: Api.Common.FormType<MetricUpdateParams>[]
+      metricForm: Api.Common.FormType<MetricUpdateParams>[]
+      sensitivityForm: Api.Common.FormType<MetricUpdateParams>[]
+      staticForm: Api.Common.FormType<MetricUpdateParams>[]
+      chartForm: Api.Common.FormType<MetricUpdateParams>[]
+      publishForm: Api.Common.FormType<MetricUpdateParams>[]
+    }
+
+    type MetricSearchParams = CommonType.RecordNullable<Pick<MetricData, 'chineseName' | "sensitivity" | "favoriteStatus" | "publishStatus" | "createBy">> & Api.SystemManage.CommonSearchParams;
+
+    type MetricList = Common.PaginatingQueryRecord<MetricData>;
+
+    type MetricAddParams = CommonType.RecordNullable<Pick<MetricData, "dataModel" | "businessScope" | "chineseName" | "englishName" | "alias" | "sensitivity" | "statisticalPeriod" | "chartType" | "chartDisplayDate" | "publishStatus" | 'createBy'>>;
+
+    type MetricUpdateParams = CommonType.RecordNullable<Pick<MetricData, 'id'>> & MetricAddParams;
   }
 
   /**
@@ -476,39 +533,22 @@ declare namespace Api {
     type DatabaseTestParams = CommonType.RecordNullable<Pick<Database, 'id'>> & DatabaseAddParams;
 
 
-    // 数据域
-    type DataDomain = Common.CommonRecord<{
-      dataDomainName: string; /** 数据域名称 */
-      datadomainDesc: string; /** 数据域描述 */
+    // 数据域和主题域
+    type Domain = Common.CommonRecord<{
+      domainName: string; /** 数据域名称 */
+      domainDesc: string; /** 数据域描述 */
     }>;
 
-    type DataDomainList = Common.PaginatingQueryRecord<DataDomain>;
+    type DomainList = Common.PaginatingQueryRecord<Domain>;
 
-    /** 数据域搜索参数 */
-    type DataDomainSearchParams = CommonType.RecordNullable<Pick<DataDomain, 'dataDomainName' | 'createBy'> & CommonSearchParams>;
+    // 搜索参数
+    type DomainSearchParams = CommonType.RecordNullable<Pick<Domain, 'domainName' | 'createBy'> & CommonSearchParams>;
 
-    /** 数据域添加参数 */
-    type DataDomainAddParams = Pick<DataDomain, 'dataDomainName' | 'datadomainDesc' | 'createBy'>;
+    // 添加参数 
+    type DomainAddParams = CommonType.RecordNullable<Pick<Domain, 'domainName' | 'domainDesc' | 'createBy'>>;
 
-    /** 数据域更新参数 */
-    type DataDomainUpdateParams = CommonType.RecordNullable<Pick<DataDomain, 'id'>> & DataDomainAddParams;
-
-    // 主题域
-    type TopicDomain = Common.CommonRecord<{
-      topicDomainName: string; /** 主题域名称 */
-      topicDomainDesc: string; /** 主题域描述 */
-    }>;
-
-    type TopicDomainList = Common.PaginatingQueryRecord<TopicDomain>;
-
-    /** 主题域搜索参数 */
-    type TopicDomainSearchParams = CommonType.RecordNullable<Pick<TopicDomain, 'topicDomainName' | 'createBy'> & CommonSearchParams>;
-
-    /** 主题域添加参数 */
-    type TopicDomainAddParams = Pick<TopicDomain, 'topicDomainName' | 'topicDomainDesc' | 'createBy'>;
-
-    /** 主题域更新参数 */
-    type TopicDomainUpdateParams = CommonType.RecordNullable<Pick<TopicDomain, 'id'>> & TopicDomainAddParams;
+    // 数据域更新参数
+    type DomainUpdateParams = CommonType.RecordNullable<Pick<Domain, 'id'>> & DomainAddParams;
 
     // 主题模型
     type DataModel = Common.CommonRecord<{
@@ -523,12 +563,12 @@ declare namespace Api {
 
     type DataModelList = Common.PaginatingQueryRecord<DataModel>;
 
-    type DomainList = {
+    type DomainSearchList = {
       dataDomainList: number[],
       topicDomainList: number[]
     }
     /** 主题模型搜索参数 */
-    type DataModelSearchParams = CommonType.RecordNullable<Pick<DataModel, 'dataModelName' | 'createBy' | 'status'> & CommonSearchParams> & DomainList;
+    type DataModelSearchParams = CommonType.RecordNullable<Pick<DataModel, 'dataModelName' | 'createBy' | 'status'> & CommonSearchParams & DomainSearchList>;
 
     // 主题模型添加参数，将 fieldConf 改为string类型，好对应接口发送
     type DataModelAddParams = CommonType.RecordNullable<Omit<DataModel, 'fieldConf'> & {
@@ -586,5 +626,7 @@ declare namespace Api {
     }
 
     type TableColumnsList = Common.PaginatingQueryRecord<TableColumns>;
+
+
   }
 }

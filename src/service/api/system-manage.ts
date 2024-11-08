@@ -294,7 +294,7 @@ export function fetchUpdateMenu(data?: Api.SystemManage.MenuUpdateParams) {
 }
 
 // 获取数据库
-export function fetchGetDatabaseList(params?: Api.SystemManage.DatabaseSearchParams) {
+export function fetchDatabaseList(params?: Api.SystemManage.DatabaseSearchParams) {
   return request<Api.SystemManage.DatabaseList>({
     url: '/system-manage/databases',
     method: 'get',
@@ -343,8 +343,8 @@ export function fetchTestDatabase(data?: Api.SystemManage.DatabaseTestParams) {
 
 
 // 获取数据域信息
-export function fetchGetDataDomainList(params?: Api.SystemManage.DataDomainSearchParams) {
-  return request<Api.SystemManage.DataDomainList>({
+export function fetchGetDataDomainList(params?: Api.SystemManage.DomainSearchParams) {
+  return request<Api.SystemManage.DomainList>({
     url: '/system-manage/data-domain',
     method: 'get',
     params
@@ -352,8 +352,9 @@ export function fetchGetDataDomainList(params?: Api.SystemManage.DataDomainSearc
 }
 
 // 添加数据域信息
-export function fetchAddDataDomain(data?: Api.SystemManage.DataDomainAddParams) {
-  return request<Api.SystemManage.DataDomainList, 'json'>({
+export function fetchAddDataDomain(data?: Api.SystemManage.DomainAddParams) {
+
+  return request<Api.SystemManage.DomainList, 'json'>({
     url: '/system-manage/data-domain',
     method: 'post',
     data
@@ -361,8 +362,8 @@ export function fetchAddDataDomain(data?: Api.SystemManage.DataDomainAddParams) 
 }
 
 // 更新数据域信息
-export function fetchUpdateDataDomain(data?: Api.SystemManage.DataDomainUpdateParams) {
-  return request<Api.SystemManage.DataDomainList, 'json'>({
+export function fetchUpdateDataDomain(data?: Api.SystemManage.DomainUpdateParams) {
+  return request<Api.SystemManage.DomainList, 'json'>({
     url: `/system-manage/data-domain/${data?.id}`,
     method: 'patch',
     data
@@ -371,15 +372,15 @@ export function fetchUpdateDataDomain(data?: Api.SystemManage.DataDomainUpdatePa
 
 // 删除数据域信息
 export function fetchDeleteDataDomain(data?: Api.SystemManage.CommonDeleteParams) {
-  return request<Api.SystemManage.DataDomainList>({
+  return request<Api.SystemManage.DomainList>({
     url: `/system-manage/data-domain/${data?.id}`,
     method: 'delete'
   });
 }
 
 // 获取主题域信息
-export function fetchGetTopicDomainList(params?: Api.SystemManage.TopicDomainSearchParams) {
-  return request<Api.SystemManage.TopicDomainList>({
+export function fetchGetTopicDomainList(params?: Api.SystemManage.DomainSearchParams) {
+  return request<Api.SystemManage.DomainList>({
     url: '/system-manage/topic-domain',
     method: 'get',
     params
@@ -387,8 +388,8 @@ export function fetchGetTopicDomainList(params?: Api.SystemManage.TopicDomainSea
 }
 
 // 添加主题域信息
-export function fetchAddTopicDomain(data?: Api.SystemManage.TopicDomainAddParams) {
-  return request<Api.SystemManage.TopicDomainList, 'json'>({
+export function fetchAddTopicDomain(data?: Api.SystemManage.DomainAddParams) {
+  return request<Api.SystemManage.DomainList, 'json'>({
     url: '/system-manage/topic-domain',
     method: 'post',
     data
@@ -396,8 +397,8 @@ export function fetchAddTopicDomain(data?: Api.SystemManage.TopicDomainAddParams
 }
 
 // 更新主题域信息
-export function fetchUpdateTopicDomain(data?: Api.SystemManage.TopicDomainUpdateParams) {
-  return request<Api.SystemManage.TopicDomainList, 'json'>({
+export function fetchUpdateTopicDomain(data?: Api.SystemManage.DomainUpdateParams) {
+  return request<Api.SystemManage.DomainList, 'json'>({
     url: `/system-manage/topic-domain/${data?.id}`,
     method: 'patch',
     data
@@ -406,14 +407,14 @@ export function fetchUpdateTopicDomain(data?: Api.SystemManage.TopicDomainUpdate
 
 // 删除主题域信息
 export function fetchDeleteTopicDomain(data?: Api.SystemManage.CommonDeleteParams) {
-  return request<Api.SystemManage.TopicDomainList>({
+  return request<Api.SystemManage.DomainList>({
     url: `/system-manage/topic-domain/${data?.id}`,
     method: 'delete'
   });
 }
 
 // 获取主题数据模型
-export function fetchGetDataModelList(params?: Api.SystemManage.DataModelSearchParams) {
+export function fetchDataModelList(params?: Api.SystemManage.DataModelSearchParams) {
   return request<Api.SystemManage.DataModelList>({
     url: '/system-manage/data-model',
     method: 'get',

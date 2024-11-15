@@ -1,19 +1,15 @@
 <template>
   <NFlex vertical gap="8px" align="center">
-    <!-- <NInput v-model:value="search" placeholder="请输入英文名称进行搜索" clearable /> -->
     <NDataTable :bordered="true" :single-line="false" :scroll-y="700" :data="dataModelFormStore.stepTwo.fieldConf ?? []"
-      :columns="columns" />
+      :columns="columns" :max-height="400" />
   </NFlex>
-  <!-- <NFlex justify="end">
-    <NButton type="primary" @click="saveConfig" class="w-20 my-4 mr-2">保存配置</NButton>
-  </NFlex> -->
 </template>
 
-<script setup lang="ts">
-import { onMounted, h } from "vue";
-import { fetchGetTableColumns } from "@/service/api";
+<script setup lang="tsx">
+import { onMounted } from "vue";
+import { fetchTableColumns } from "@/service/api";
 import { useDataModelFormStore } from "@/store/modules/model";
-import { NSelect, NSwitch } from "naive-ui";
+import { NSelect } from "naive-ui";
 
 // 获取数据模型表单状态存储内容
 const dataModelFormStore = useDataModelFormStore();
@@ -23,12 +19,11 @@ const fetchColumns = async () => {
   if (!dataModelFormStore.stepOne.database || !dataModelFormStore.stepOne.tableName) {
     return;
   }
-  const response = await fetchGetTableColumns({
+  const response = await fetchTableColumns({
     database: dataModelFormStore.stepOne.database,
     tableName: dataModelFormStore.stepOne.tableName,
   });
   dataModelFormStore.stepTwo.fieldConf = response.data?.records;
-
 };
 
 // 在组件挂载时获取表的字段信息
@@ -57,58 +52,44 @@ const columns = [
     key: 'semanticType',
     title: '语义类型',
     width: 180,
-    render: (row: Api.SystemManage.TableColumns) => h(NSelect, {
-      value: row.semanticType,
-      options: semanticTypeOptions,
-      placeholder: '请选择语义类型',
-      clearable: true,
-      onUpdateValue: (value) => {
+    render: (row: Api.SystemManage.TableColumns) => {
+      return (
+      <NSelect v-model:value={row.semanticType} options={semanticTypeOptions} placeholder="请选择语义类型" clearable onUpdate:value={(value) => {
         row.semanticType = value
-      }
-    })
+      }}/>)}
+    
   },
   {
-    key: "extended",
-    title: "扩展配置",
+    key: "aggregation",
+    title: "聚合方式",
     width: 200,
     render: (row: Api.SystemManage.TableColumns) => {
-      if (row.semanticType === 'date') {
-        return h(NSelect, {
-          value: row.dateFormat,
-          options: dateFormatOptions,
-          placeholder: '请选择日期格式',
-          onUpdateValue: (value) => {
-            row.dateFormat = value
-          }
-        })
-      }
-      else if (row.semanticType === 'metric') {
-        return h(NSelect, {
-          value: row.staticType,
-          options: metricStaticOptions,
-          placeholder: '请选择统计方式',
-          onUpdateValue: (value) => {
+      if (row.semanticType === 'metric') {
+        return (<NSelect v-model:value={row.staticType} options={metricStaticOptions} placeholder="请选择统计方式" onUpdate:value={(value) => {
             row.staticType = value
-          }
-        })
+          }}/>)
       }
     }
   },
   {
-    key: "isTag",
-    title: "设为标签",
+    key: "format",
+    title: "格式",
     width: 200,
-    render: (row: Api.SystemManage.TableColumns) => h(NSwitch, {
-      checked: row.isTag === '1',
-      onUpdateValue: (value: boolean) => {
-        row.isTag = value ? '1' : '2'
-      },
-      // 可选属性
-      disabled: false,
-    })
+    render: (row: Api.SystemManage.TableColumns) => {
+      if (row.semanticType === 'date') {
+        return  (<NSelect v-model:value={row.format} options={dateFormatOptions} placeholder="请选择日期格式" onUpdate:value={(value) => {
+            row.format = value
+          }}/>)
+  
+      }
+      else if (row.semanticType === 'metric') {
+        return (<NSelect v-model:value={row.format} options={formatOptions} placeholder="请选择统计方式" onUpdate:value={(value) => {
+            row.format = value
+          }}/>)
+      }
+    }
   },
 ];
-
 
 const semanticTypeOptions = [
   { label: "日期", value: "date" },
@@ -130,14 +111,11 @@ const metricStaticOptions = [
   { label: "总和", value: "sum" },
   { label: "计数", value: "count" }
 ]
-// 根据搜索条件过滤字段
-// const filteredFields = computed(() => {
-//   return fields.value.filter((field) => field.name.includes(search.value));
-// });
 
-// const saveConfig = async () => {
-//   // dataModelFormStore.stepTwo.fieldConf;
-
-
-// };
+const formatOptions = [
+  { label: "数值", value: "number" },
+  { label: "货币", value: "currency" },
+  { label: "百分比", value: "percent" },
+  { label: "流量", value: "flow" },
+]
 </script>

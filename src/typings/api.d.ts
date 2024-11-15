@@ -6,6 +6,7 @@
  * All backend api type
  */
 declare namespace Api {
+
   namespace Common {
     /** 分页的常用参数 */
     interface PaginatingCommonParams {
@@ -54,6 +55,8 @@ declare namespace Api {
       props?: any
       placeholder?: string
     }
+
+    type TimeType = 'day' | 'week' | 'month' | 'quarter' | 'year';
   }
 
   /**
@@ -98,6 +101,12 @@ declare namespace Api {
    * 后端 API 模块：“Metric”
    */
   namespace Metric {
+    type StatisticType = 'sum' | 'avg' | 'max' | 'min' | 'count' | 'default';
+
+    type StatisticalPeriod = 'day' | 'month' | 'quarter' | 'year';
+
+    type ChartType = 'line' | 'bar';
+
     interface MetricData {
       id: string;                // 唯一标识符
       dataModel: number;         // 选用数据模型
@@ -106,14 +115,19 @@ declare namespace Api {
       englishName: string;       // 英文名
       alias: string;             // 别名
       sensitivity: string;       // 敏感度
-      statisticalPeriod: string;  // 统计周期
-      chartType: 'line' | 'bar';  // 图表类型
-      chartDisplayDate: string;   // 图表显示日期
-      formatType: string;        // 格式化类型
-      favoriteStatus: number;     // 收藏状态
-      publishStatus: Api.Common.EnableStatus;      // 发布状态
+      statisticType: StatisticType;    // 统计类型
+      statisticalPeriod: StatisticalPeriod;  // 统计周期
+      chartType: ChartType;       // 图表类型
+      topicDomain: string;        // 主题域
+      chartDisplayDate: number;   // 图表显示日期
+      formatType: FormatType;         // 格式化类型
+      dimensions: SelectOptions[]  // 接收到的维度
       tags: string[];
+      publishStatus: Api.Common.EnableStatus | '';      // 发布状态
+      displayStatus: Api.Common.EnableStatus | '';      // 显示状态
+      favoritePerson: string;     // 收藏人
       createBy: string;          // 创建人
+      updateTime: string;        // 更新时间
       data: Array<{
         date: string;            // 数据日期，假设使用字符串表示日期
         value: number;           // 数据值
@@ -130,13 +144,29 @@ declare namespace Api {
       publishForm: Api.Common.FormType<MetricUpdateParams>[]
     }
 
-    type MetricSearchParams = CommonType.RecordNullable<Pick<MetricData, 'chineseName' | "sensitivity" | "favoriteStatus" | "publishStatus" | "createBy">> & Api.SystemManage.CommonSearchParams;
+
+    type MetricSearchParams = CommonType.RecordNullable<Pick<MetricData, "id" | 'chineseName' | "sensitivity" | "favoritePerson" | "topicDomain" | "publishStatus" | "createBy" | 'displayStatus'>
+      & Api.SystemManage.CommonSearchParams & {
+        dateRange: [number, number]
+        dimensionDrillDown: string // 发送给接口的参数
+        dimensionFilter: string
+        check: string
+        conditions: string[]
+      }>;
 
     type MetricList = Common.PaginatingQueryRecord<MetricData>;
 
     type MetricAddParams = CommonType.RecordNullable<Pick<MetricData, "dataModel" | "businessScope" | "chineseName" | "englishName" | "alias" | "sensitivity" | "statisticalPeriod" | "chartType" | "chartDisplayDate" | "publishStatus" | 'createBy'>>;
 
     type MetricUpdateParams = CommonType.RecordNullable<Pick<MetricData, 'id'>> & MetricAddParams;
+
+    type SelectOptions = {
+      value: string;
+      label: string;
+      options: SelectOptions[]
+    }
+
+    type FormatType = 'percent' | 'flow' | 'number' | 'percent' | 'currency' | 'default';
   }
 
   /**
@@ -620,9 +650,8 @@ declare namespace Api {
       columnType: string;
       columnComment: string;
       semanticType: string | null;
-      dateFormat: string | null;
+      format: string | null;
       staticType: string | null;
-      isTag: Api.Common.EnableStatus;
     }
 
     type TableColumnsList = Common.PaginatingQueryRecord<TableColumns>;

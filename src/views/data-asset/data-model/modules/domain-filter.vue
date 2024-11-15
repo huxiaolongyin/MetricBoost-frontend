@@ -13,7 +13,6 @@ import { NButton, NFlex, NPopconfirm } from 'naive-ui'
 import { Icon } from '@iconify/vue';
 import { $t } from '@/locales';
 import DataDomainNew from './domain-operate.vue';
-import { error } from 'console';
 
 defineOptions({
     name: 'DomainFilter'

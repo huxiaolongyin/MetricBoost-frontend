@@ -161,8 +161,13 @@ const local: App.I18n.Schema = {
     home: 'Home',
     metric: 'Metric',
     "metric-detail": 'MetricDetail',
+    "metric-exploration": 'MetricExploration',
+    "metric-publish": 'MetricPublish',
+    "metric-report": 'MetricReport',
+    "metric-ai": 'AiAnalysis',
     dashboard: 'Dashboard',
     decision: 'Decision',
+    "decision-detail": 'DecisionDetail',
     report: 'Report',
     task: 'Task',
     document: 'Document',
@@ -365,6 +370,16 @@ const local: App.I18n.Schema = {
         triggerAllRequest: 'Manually Trigger All Automated Requests'
       }
     },
+    metric: {
+      formTile: {
+        modelForm: 'Model Config',
+        metricForm: "Metric Config",
+        sensitivityForm: "Sensitivity Config",
+        staticForm: "Staticical Config",
+        chartForm: "Chart Config",
+        publishForm: "Publish Config",
+      }
+    },
     manage: {
       common: {
         status: {
@@ -426,12 +441,21 @@ const local: App.I18n.Schema = {
         status: 'Status',
         createBy: 'Creator',
         createTime: 'Create Time',
+        filter: 'Data Domain/Topic Domain',
+        dataPreview: 'Data Preview',
+        addDataModel: 'Add Data Model',
+        editDataModel: 'Edit Data Model',
+        databaseSelect: 'Database',
+        tableName: 'TableName',
         form: {
           dataModelName: 'Please enter model name',
           dataModelDesc: 'Please enter model description',
           dataDomain: 'Please select data domain',
           topicDomain: 'Please select topic domain',
           status: 'Please select status',
+          databaseSelect: 'Please select database',
+          tableName: 'Please enter table name',
+          createBy: 'Please select creator'
         }
       },
       log: {

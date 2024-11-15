@@ -39,7 +39,11 @@ declare module "@elegant-router/types" {
     "alova_scenes": "/alova/scenes";
     "alova_user": "/alova/user";
     "dashboard": "/dashboard";
+    "data-asset": "/data-asset";
+    "data-asset_data-model": "/data-asset/data-model";
+    "data-asset_database": "/data-asset/database";
     "decision": "/decision";
+    "decision-detail": "/decision-detail/:id";
     "function": "/function";
     "function_hide-child": "/function/hide-child";
     "function_hide-child_one": "/function/hide-child/one";
@@ -55,15 +59,17 @@ declare module "@elegant-router/types" {
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
     "manage": "/manage";
     "manage_api": "/manage/api";
-    "manage_data-model": "/manage/data-model";
-    "manage_database": "/manage/database";
     "manage_log": "/manage/log";
     "manage_menu": "/manage/menu";
     "manage_role": "/manage/role";
     "manage_user": "/manage/user";
     "manage_user-detail": "/manage/user-detail/:id";
     "metric": "/metric";
+    "metric-ai": "/metric-ai/:id";
     "metric-detail": "/metric-detail/:id";
+    "metric-exploration": "/metric-exploration/:id";
+    "metric-publish": "/metric-publish/:id";
+    "metric-report": "/metric-report/:id";
     "plugin": "/plugin";
     "plugin_barcode": "/plugin/barcode";
     "plugin_charts": "/plugin/charts";
@@ -136,14 +142,20 @@ declare module "@elegant-router/types" {
     | "about"
     | "alova"
     | "dashboard"
+    | "data-asset"
     | "decision"
+    | "decision-detail"
     | "function"
     | "home"
     | "iframe-page"
     | "login"
     | "manage"
     | "metric"
+    | "metric-ai"
     | "metric-detail"
+    | "metric-exploration"
+    | "metric-publish"
+    | "metric-report"
     | "plugin"
     | "report"
     | "task"
@@ -176,6 +188,9 @@ declare module "@elegant-router/types" {
     | "alova_scenes"
     | "alova_user"
     | "dashboard"
+    | "data-asset_data-model"
+    | "data-asset_database"
+    | "decision-detail"
     | "decision"
     | "function_hide-child_one"
     | "function_hide-child_three"
@@ -187,14 +202,16 @@ declare module "@elegant-router/types" {
     | "function_toggle-auth"
     | "home"
     | "manage_api"
-    | "manage_data-model"
-    | "manage_database"
     | "manage_log"
     | "manage_menu"
     | "manage_role"
     | "manage_user-detail"
     | "manage_user"
+    | "metric-ai"
     | "metric-detail"
+    | "metric-exploration"
+    | "metric-publish"
+    | "metric-report"
     | "metric"
     | "plugin_barcode"
     | "plugin_charts_antv"

@@ -1,8 +1,8 @@
 <template>
   <div>
     <NFlex vertical :size="16" class="mt-5">
-      <Search v-model:formData="formState" :select-options="selectOptions" />
-      <MetricCard :metricData="filteredMetricData" />
+      <Search v-model:formData="searchParams" />
+      <MetricCard v-model:metricData="metricData" />
     </NFlex>
     <NFloatButton :right="50" :bottom="60" shape="circle" width="60" height="60" class="bg-red-500" @click="handleAdd">
       <Icon icon="mdi:plus" class="text-white" width="35" height="35" />
@@ -12,99 +12,69 @@
 
 <script setup lang="ts">
 import MetricCard from "./modules/metric-card.vue";
-import { ref, watchEffect, computed } from "vue";
-// import { fetchCardData } from "@/data/cardData";
+import { onMounted, ref, watch } from "vue";
 import { fetchMetric } from "@/service/api";
 import Search from "./modules/search-filter.vue";
 import { Icon } from "@iconify/vue";
 import { useRouterPush } from "@/hooks/common/router";
+import { useAuthStore } from '@/store/modules/auth';
 
 // 获取指标数据列表
 const metricData = ref<Api.Metric.MetricData[]>([]);
 
 // 初始化搜索、筛选查询
-const formState = ref({
-  searchValue: "",
-  selectValue: "",
-  favoriteStatus: null,
-  sensitiveValue: "",
-  publishValue: "",
+const searchParams = ref<Api.Metric.MetricSearchParams>({
+  chineseName: "",
+  sensitivity: '',
+  displayStatus: '',
+  favoritePerson: '',
+  publishStatus: '',
+  topicDomain: null,
+  createBy: "",
+  current: 1,
+  size: 10
 });
 
-const selectOptions = ref<{ value: string; label: string }[]>([]); // 明确指定类型
 
-const filteredMetricData = computed(() => {
-  let filteredData = metricData.value;
+// 获取指标数据列表
+const fetchMetricWithSearch = async (searchParams: Api.Metric.MetricSearchParams) => {
+  const response = await fetchMetric({
+    ...searchParams
+  });
+  return response;
+};
 
-  // 搜索框过滤
-  if (formState.value.searchValue) {
-    filteredData = filteredData.filter(
-      (item) =>
-        item.chineseName
-          .toLowerCase()
-          .includes(formState.value.searchValue.toLowerCase()) ||
-        item.englishName
-          .toLowerCase()
-          .includes(formState.value.searchValue.toLowerCase()) ||
-        item.tags.some((tag) =>
-          tag.toLowerCase().includes(formState.value.searchValue.toLowerCase())
-        )
-    );
-  }
-  // 主题域过滤
-  if (formState.value.selectValue) {
-    filteredData = filteredData.filter((item) =>
-      item.tags.includes(formState.value.selectValue)
-    );
-  }
-
-  // 单选项过滤
-  if (formState.value.favoriteStatus) {
-    filteredData = filteredData.filter(
-      (item) => item.favoriteStatus === formState.value.favoriteStatus
-    );
-  }
-
-  if (formState.value.publishValue) {
-    filteredData = filteredData.filter(
-      (item) => item.publishStatus === formState.value.publishValue
-    );
-  }
-
-  if (formState.value.sensitiveValue) {
-    filteredData = filteredData.filter(
-      (item) => item.sensitivity === formState.value.sensitiveValue
-    );
-  }
-
-  return filteredData;
-});
-
-// 跳转到新增页
-// const routerPush = useRouterPush();
-// const handleAdd = () => {
-//   routerPush('/metric/add');
-// }
-
+// 跳转到新增指标页面
 const handleAdd = () => {
   const { routerPushByKey } = useRouterPush(false);
   routerPushByKey("metric-detail", { params: { id: "add" } });
 };
 
-watchEffect(async () => {
-  const response = await fetchMetric()
-  metricData.value = responsedata;
-  // 获取所有标签
-  const allTags = metricData.value.flatMap((item) => item.tags);
-  // 去重
-  const uniqueTags: string[] = Array.from(new Set(allTags));
-  // 转换格式
-  selectOptions.value = [
-    { value: "", label: "不限" },
-    ...uniqueTags.map((tag) => ({
-      value: tag, // 使用原始标签作为 value
-      label: tag, // 使用原始标签作为 label
-    })),
-  ];
-});
+// 页面加载时获取指标数据列表
+onMounted(async () => {
+  const { displayStatus, ...requestParams } = searchParams.value;
+  const response = await fetchMetricWithSearch(requestParams);
+  metricData.value = response.data?.records ?? [];
+})
+
+// 监听搜索参数的变化
+watch(searchParams, async (newParams) => {
+  const { displayStatus, ...requestParams } = newParams;
+  const authStore = useAuthStore();
+  if (displayStatus === '1') {
+    // 获取当前用户信息
+    newParams.createBy = authStore.userInfo.userName;
+    newParams.favoritePerson = '';
+  }
+  else if (displayStatus === '2') {
+    newParams.favoritePerson = authStore.userInfo.userName;
+    newParams.createBy = '';
+  }
+  else {
+    newParams.createBy = '';
+    newParams.favoritePerson = '';
+  }
+  const response = await fetchMetricWithSearch(requestParams);
+  metricData.value = response.data?.records ?? [];
+}, { deep: true });
 </script>

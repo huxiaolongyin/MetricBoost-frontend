@@ -467,7 +467,7 @@ export function fetchGetTableList(params?: Api.SystemManage.TableSearchParams) {
 }
 
 // 获取数据表的字段信息
-export function fetchGetTableColumns(params?: Api.SystemManage.TableColumnsSearchParams) {
+export function fetchTableColumns(params?: Api.SystemManage.TableColumnsSearchParams) {
   return request<Api.SystemManage.TableColumnsList>({
     url: '/system-manage/data-model/tables/columns',
     method: 'get',

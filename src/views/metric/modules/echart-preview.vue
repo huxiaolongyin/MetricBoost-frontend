@@ -1,10 +1,13 @@
+<template>
+  <div ref="domRef" class="h-full w-full"></div>
+</template>
+
 <script setup lang="ts">
 import { watchEffect } from "vue";
 import { useEcharts } from "@/hooks/common/echarts";
-import type { MetricData } from "@/typings/metrics";
 
 const props = defineProps<{
-  metricData: MetricData;
+  metricData: Api.Metric.MetricData;
 }>();
 
 const isScale = props.metricData.chartType === "line";
@@ -53,20 +56,10 @@ async function updateChartData() {
   });
 }
 
-// async function init() {
-//     mockData();
-// }
-
 watchEffect(() => {
   if (props.metricData) {
     updateChartData();
   }
 });
 
-// init
-// init();
 </script>
-
-<template>
-  <div ref="domRef" class="h-full w-full"></div>
-</template>

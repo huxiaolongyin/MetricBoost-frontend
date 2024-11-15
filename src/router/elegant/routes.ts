@@ -109,6 +109,41 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'data-asset',
+    path: '/data-asset',
+    component: 'layout.base',
+    meta: {
+      title: 'data-asset',
+      i18nKey: 'route.data-asset',
+      icon: 'simple-icons:binance',
+      order: 9
+    },
+    children: [
+      {
+        name: 'data-asset_data-model',
+        path: '/data-asset/data-model',
+        component: 'view.data-asset_data-model',
+        meta: {
+          title: 'data-asset_data-model',
+          i18nKey: 'route.data-asset_data-model',
+          icon: 'carbon:model-alt',
+          order: 2
+        }
+      },
+      {
+        name: 'data-asset_database',
+        path: '/data-asset/database',
+        component: 'view.data-asset_database',
+        meta: {
+          title: 'data-asset_database',
+          i18nKey: 'route.data-asset_database',
+          icon: 'solar:database-bold',
+          order: 1
+        }
+      }
+    ]
+  },
+  {
     name: 'decision',
     path: '/decision',
     component: 'layout.base$view.decision',
@@ -117,6 +152,18 @@ export const generatedRoutes: GeneratedRoute[] = [
       i18nKey: 'route.decision',
       icon: 'mdi:brain',
       order: 4
+    },
+    props: true
+  },
+  {
+    name: 'decision-detail',
+    path: '/decision-detail/:id',
+    component: 'layout.base$view.decision-detail',
+    props: true,
+    meta: {
+      title: 'decision-detail',
+      i18nKey: 'route.decision-detail',
+      hideInMenu: true
     }
   },
   {
@@ -282,7 +329,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'manage',
       i18nKey: 'route.manage',
       icon: 'carbon:cloud-service-management',
-      order: 9,
+      order: 10,
       roles: ['R_ADMIN']
     },
     children: [
@@ -295,28 +342,6 @@ export const generatedRoutes: GeneratedRoute[] = [
           i18nKey: 'route.manage_api',
           icon: 'ant-design:api-outlined',
           order: 4
-        }
-      },
-      {
-        name: 'manage_data-model',
-        path: '/manage/data-model',
-        component: 'view.manage_data-model',
-        meta: {
-          title: 'manage_data-model',
-          i18nKey: 'route.manage_data-model',
-          icon: 'mdi:webpack',
-          order: 6
-        }
-      },
-      {
-        name: 'manage_database',
-        path: '/manage/database',
-        component: 'view.manage_database',
-        meta: {
-          title: 'manage_database',
-          i18nKey: 'route.manage_database',
-          icon: 'mdi:database',
-          order: 5
         }
       },
       {
@@ -394,6 +419,18 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'metric-ai',
+    path: '/metric-ai/:id',
+    component: 'layout.base$view.metric-ai',
+    props: true,
+    meta: {
+      title: 'metric-ai',
+      i18nKey: 'route.metric-ai',
+      icon: 'mdi:chart-line',
+      hideInMenu: true
+    }
+  },
+  {
     name: 'metric-detail',
     path: '/metric-detail/:id',
     component: 'layout.base$view.metric-detail',
@@ -401,6 +438,43 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'metric-detail',
       i18nKey: 'route.metric-detail',
+      icon: 'mdi:chart-line',
+      hideInMenu: true
+    }
+  },
+  {
+    name: 'metric-exploration',
+    path: '/metric-exploration/:id',
+    component: 'layout.base$view.metric-exploration',
+    props: true,
+    meta: {
+      title: 'metric-exploration',
+      i18nKey: 'route.metric-exploration',
+      icon: 'mdi:chart-line',
+      hideInMenu: true
+    }
+  },
+  {
+    name: 'metric-publish',
+    path: '/metric-publish/:id',
+    component: 'layout.base$view.metric-publish',
+    props: true,
+    meta: {
+      title: 'metric-publish',
+      i18nKey: 'route.metric-publish',
+      icon: 'mdi:chart-line',
+      hideInMenu: true
+    }
+  },
+  {
+    name: 'metric-report',
+    path: '/metric-report/:id',
+    component: 'layout.base$view.metric-report',
+    props: true,
+    meta: {
+      title: 'metric-report',
+      i18nKey: 'route.metric-report',
+      icon: 'mdi:chart-line',
       hideInMenu: true
     }
   },

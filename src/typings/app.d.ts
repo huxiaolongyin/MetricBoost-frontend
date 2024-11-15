@@ -579,7 +579,6 @@ declare namespace App {
             dataDomain: string;
             topicDomain: string;
             status: string;
-            sqlContent: string;
             createBy: string;
             createTime: string;
             filter: string;
@@ -593,11 +592,10 @@ declare namespace App {
               dataModelDesc: string;
               dataDomain: string;
               topicDomain: string;
-              sqlContent: string;
               status: string;
-              createBy: string;
               databaseSelect: string;
               tableName: string;
+              createBy: string;
             }
           };
           log: {

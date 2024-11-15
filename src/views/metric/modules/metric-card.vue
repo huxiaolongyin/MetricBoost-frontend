@@ -28,7 +28,8 @@
               <div class="flex justify-end">
                 <NDropdown placement="bottom-end" trigger="click" :options="menuOption"
                   @select="(key) => handleSelect(key, item)">
-                  <Icon icon="mdi:dots-horizontal" width="24" height="24" class="text-slate-400" />
+                  <Icon icon="material-symbols:more-horiz" width="24" height="24"
+                    class="text-slate-400 hover:text-slate-600" />
                 </NDropdown>
               </div>
 
@@ -46,41 +47,70 @@
 import EChartComponent from "./echart-preview.vue";
 import { Icon } from "@iconify/vue";
 import { useRouterPush } from '@/hooks/common/router';
+import { getFormattedValue } from '@/hooks/common/metric-format';
 
 defineOptions({
   name: "MetricCard",
 });
 
-// 获取卡片数据
-defineProps<{
-  metricData: Api.Metric.MetricData[];
-}>();
+// 通过模型获取卡片数据
+const metricData = defineModel<Api.Metric.MetricData[]>('metricData', { required: true })
 
-// 获取数值，如果是 百分数，则*100
-const getFormattedValue = (item: Api.Metric.MetricData) => {
-  return item.formatType === "percent"
-    ? item.data[item.data.length - 1].value * 100
-    : item.data[item.data.length - 1].value;
+
+// 获取小数位数，设置金额、流量、百分数的小数位数为 2 ，其他为 0 位
+const getDemicals = (FormatType: Api.Metric.FormatType) => {
+  switch (FormatType) {
+    case "currency":
+    case "flow":
+    case "percent":
+      return 2;
+    default:
+      return 0;
+  }
 };
 
-// 获取小数位数，设置金额的小数位数为 0 ，其他为 2 位
-const getDemicals = (FormatType: string) => (FormatType === "currency" ? 0 : 2);
 // 获取后缀
-const getSuffix = (FormatType: string) => (FormatType === "percent" ? "%" : "");
+const getSuffix = (FormatType: Api.Metric.FormatType) => {
+  switch (FormatType) {
+    case "percent":
+      return "%";
+    case "flow":
+      return "MB";
+    default:
+      return "";
+  }
+};
+
 // 获取前缀
-const getPrefix = (FormatType: string) => (FormatType === "currency" ? "￥" : "");
+const getPrefix = (FormatType: Api.Metric.FormatType) => {
+  return (FormatType === "currency" ? "￥" : "");
+};
 
 const menuOption = [
   { label: '基本信息', key: "metric-detail" },
-  { label: '指标探索', key: "metricExploration" },
-  { label: '发布分享', key: "publishShare" },
-  { label: '生成报告', key: "generateReport" },
-  { label: 'AI分析', key: "aiAnalysis" },
-  { label: '收藏', key: "saveToFavorites" },
+  { label: '指标探索', key: "metric-exploration" },
+  { label: '发布分享', key: "metric-publish" },
+  { label: '生成报告', key: "metric-report" },
+  { label: 'AI 分析', key: "metric-ai" },
+  { label: "加入收藏", key: "saveToFavorites" },
 ]
 
 const handleSelect = (key: string, item: Api.Metric.MetricData) => {
   const { routerPushByKey } = useRouterPush(false);
-  routerPushByKey('metric-detail', { params: { id: item.id, }, query: { item: JSON.stringify(item) } });
+  if (key === "metric-detail") {
+    routerPushByKey("metric-detail", { params: { id: item.id, }, query: { item: JSON.stringify(item) } });
+  }
+  else if (key === "metric-exploration") {
+    routerPushByKey("metric-exploration", { params: { id: item.id, } });
+  }
+  else if (key === "metric-publish") {
+    routerPushByKey("metric-publish", { params: { id: item.id, } });
+  }
+  else if (key === "metric-report") {
+    routerPushByKey("metric-report", { params: { id: item.id, } });
+  }
+  else if (key === "metric-ai") {
+    routerPushByKey("metric-ai", { params: { id: item.id, } });
+  }
 }
 </script>

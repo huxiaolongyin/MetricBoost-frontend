@@ -13,7 +13,7 @@
   </NForm>
   <NButton type="primary" class="w-20 mb-5" @click="handlePreview"> 预 览 </NButton>
   <NDataTable :columns="columns" :data="previewData" size="small" :loading="isDataLoading" class="sm:h-full"
-    :pagination="pagination" scroll-y="700" />
+    :pagination="pagination" scroll-y="700" :max-height="250" />
 </template>
 
 <script setup lang="ts">
@@ -100,6 +100,7 @@ const handlePreview = async () => {
       (responseData as any).response.data.columns?.map((item: any) => ({
         title: `${item.columnName}(${item.columnComment})`,
         key: item.columnName,
+        sorter: 'default'
       })) || [];
     previewData.value = responseData.data?.records || [];
   } catch (error) {

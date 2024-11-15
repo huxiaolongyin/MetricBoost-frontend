@@ -16,7 +16,7 @@
             <NGi v-for="field in form">
               <NFormItem :key="field.key" :label="field.label" :path="field.key">
                 <component :is="field.component" v-model:value="formModel[field.key]" v-bind="field.props"
-                  :placeholder="field.placeholder" />
+                  :placeholder="field.placeholder" class="w-full" />
               </NFormItem>
             </NGi>
           </NGrid>
@@ -31,12 +31,12 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed, markRaw } from 'vue';
-import { NForm, NFormItem, NInput, NSelect, NButton } from 'naive-ui';
+import { NForm, NFormItem, NInput, NSelect, NButton, NInputNumber } from 'naive-ui';
 import { $t } from '@/locales';
 import { useMessage } from 'naive-ui'
 import { useRoute } from 'vue-router';
 import { fetchAddMetric, fetchUpdateMetric, fetchDataModelList } from '@/service/api'
-import type { SelectOption } from 'naive-ui';
+import type { SelectOption, FormRules } from 'naive-ui';
 import { useLoadOptions } from '@/hooks/common/option'
 import { useAuthStore } from '@/store/modules/auth';
 
@@ -71,9 +71,9 @@ const chartTypeOptions: SelectOption[] = [
   { label: '柱状图', value: 'bar' },
 ]
 const chartDisplayDateOptions: SelectOption[] = [
-  { label: '7日', value: '7' },
-  { label: '15日', value: '15' },
-  { label: '30日', value: '30' },
+  { label: '7日 ', value: 7 },
+  { label: '15日', value: 15 },
+  { label: '30日', value: 30 },
 ]
 
 // 定义表单的字段
@@ -135,6 +135,12 @@ const formFields = ref<Api.Metric.MetricFormFields>({
       },
       placeholder: '选择需要统计周期'
     },
+    {
+      key: 'chartDisplayDate',
+      label: '展示周期',
+      component: markRaw(NInputNumber),
+      placeholder: '选择需要展示的周期'
+    }
   ],
   chartForm: [
     {
@@ -146,15 +152,7 @@ const formFields = ref<Api.Metric.MetricFormFields>({
       },
       placeholder: '选择展示的图表'
     },
-    {
-      key: 'chartDisplayDate',
-      label: '展示周期',
-      component: markRaw(NSelect),
-      props: {
-        options: chartDisplayDateOptions
-      },
-      placeholder: '选择需要展示的周期'
-    }
+
   ],
   publishForm: [
     {
@@ -211,23 +209,23 @@ else {
   formModel.value = item;
 }
 
-
-const rules = {
-  chineseName: { required: true, message: '中文名是必填项' },
-  englishName: { required: true, message: '英文名是必填项' },
-  alias: { required: false, message: '别名是必填项' },
-  sensitivity: { required: true, message: '敏感度是必填项' },
+// 定义表单的校验规则
+const rules: FormRules = {
+  chineseName: { required: true, message: '中文名是必填项', trigger: 'blur' },
+  englishName: { required: true, message: '英文名是必填项', trigger: 'blur' },
+  alias: { required: false, message: '别名是必填项', trigger: 'blur' },
+  sensitivity: { required: true, message: '敏感度是必填项', trigger: 'blur' },
   dataModel: { required: true, message: '选用模型是必填项' },
-  businessScope: { required: false }
+  businessScope: { required: true, message: '业务口径是必填项', trigger: 'blur' }
 };
-
-
 
 const message = useMessage()
 
 const handleDelete = () => {
   message.info('删除成功')
 }
+
+// 处理编辑
 const handleEdit = () => {
   isEditing.value = !isEditing.value
 }

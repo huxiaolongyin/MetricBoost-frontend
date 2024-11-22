@@ -35,10 +35,12 @@ const isDataLoading = ref(false);
 // 定义搜索表单模型
 const searchParams = ref<Api.Metric.MetricSearchParams>({
   dateRange: null,
+  statisticalPeriod: null,
   dimensionDrillDown: null,
   dimensionFilter: null,
   check: null,
   conditions: [],
+  sort: "asc"
 });
 
 // 首先定义时间计算常量
@@ -46,7 +48,7 @@ const TIME_UNITS: Record<Api.Common.TimeType, number> = {
   "day": 24 * 60 * 60 * 1000,
   "week": 7 * 24 * 60 * 60 * 1000,
   "month": 30 * 24 * 60 * 60 * 1000,
-  "quarter": 90 * 24 * 60 * 60 * 1000,
+  // "quarter": 90 * 24 * 60 * 60 * 1000,
   "year": 365 * 24 * 60 * 60 * 1000
 };
 
@@ -69,6 +71,11 @@ const fetchMetricData = async () => {
     const diff = calculateDateDiff(data.records[0]);
     const now = Date.now();
     searchParams.value.dateRange = [now - diff, now];
+  }
+
+  // 设置统计周期
+  if (searchParams.value?.statisticalPeriod == null && data?.records?.[0]) {
+    searchParams.value.statisticalPeriod = data.records[0].statisticalPeriod;
   }
 
 };

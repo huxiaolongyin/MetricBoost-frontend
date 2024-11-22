@@ -10,7 +10,7 @@
         <div v-for="(form, key)  in formFields">
           <div class=" text-dark dark:text-white font-sans text-lg font-semibold mb-6">{{
             $t(`page.metric.formTile.${key}`)
-            }}
+          }}
           </div>
           <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16" class="">
             <NGi v-for="field in form">
@@ -62,8 +62,9 @@ const sensitivityOptions: SelectOption[] = [
 ]
 const statisticalPeriodOptions: SelectOption[] = [
   { label: '日', value: 'day' },
+  { label: '周', value: 'week' },
   { label: '月', value: 'month' },
-  { label: '季度', value: 'quarter' },
+  // { label: '季度', value: 'quarter' },
   { label: '年', value: 'year' }
 ]
 const chartTypeOptions: SelectOption[] = [

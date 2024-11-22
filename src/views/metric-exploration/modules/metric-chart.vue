@@ -11,6 +11,7 @@ import { watch, ref } from "vue";
 import { useEcharts } from "@/hooks/common/echarts";
 import type { SeriesOption } from "echarts";
 import { CallbackDataParams } from 'echarts/types/dist/shared'
+import { formatEchartDisplay } from '@/hooks/common/metric-format';
 
 // 双向绑定数据
 const metricData = defineModel<Api.Metric.MetricData>("metricData", { required: false })
@@ -29,7 +30,6 @@ watch(() => metricData.value, () => {
     }
     const data = metricData.value.data;
 
-    // const format
     // 获取所有去重日期作为 x 轴
     const xAxisData = [... new Set(data.map(item => item.date))];
 
@@ -53,11 +53,46 @@ watch(() => metricData.value, () => {
             }
         },
         tooltip: {
+            formatter: (params: CallbackDataParams[]) => {
+                // 处理单系列数据
+                if (params.length === 1) {
+                    return `${params[0].marker}${params[0].seriesName}: ${formatEchartDisplay[metricData.value?.formatType ?? 'default']((params[0].value ?? '-').toString())}`;
+                }
+
+                // 处理多系列数据
+                const validParams = params.filter(item => Number(item.value) >= 0.01).sort((a, b) => Number(b.value) - Number(a.value));;
+
+                const MAX_ROWS = 15;
+                const columns = Math.ceil(validParams.length / MAX_ROWS);
+
+                // 创建单个数据项的HTML
+                const createItem = (item: CallbackDataParams) => `
+                    <div style="display:flex;justify-content:space-between;min-width:180px;gap:10px">
+                        <span>${item.marker}${item.seriesName}</span>
+                        <span>${formatEchartDisplay[metricData.value?.formatType ?? 'default']((item.value ?? '-').toString())}</span>
+                    </div>`;
+
+                // 如果需要分列显示
+                if (columns > 1) {
+                    const itemsPerColumn = Math.ceil(validParams.length / columns);
+                    const columnDivs = [];
+
+                    for (let i = 0; i < columns; i++) {
+                        const columnItems = validParams.slice(i * itemsPerColumn, (i + 1) * itemsPerColumn);
+                        columnDivs.push(`<div>${columnItems.map(createItem).join('')}</div>`);
+                    }
+
+                    return `<div style="display:flex;gap:20px">${columnDivs.join('')}</div>`;
+                }
+
+                // 单列显示
+                return validParams.map(createItem).join('');
+            },
             trigger: 'axis',
             axisPointer: {
                 type: 'cross',
                 label: {
-                    backgroundColor: '#6a7985'
+                    backgroundColor: '#6a7985',
                 }
             }
         },
@@ -81,7 +116,7 @@ watch(() => metricData.value, () => {
             label: {
                 show: true,
                 position: 'top',
-                formatter: (params: CallbackDataParams) => params.value,// Display the value
+                formatter: (params: CallbackDataParams) => formatEchartDisplay[metricData.value?.formatType ?? 'default'](params.value as string ?? '-'),// Display the value
                 fontSize: 12,
                 color: '#666',
                 // Optional: Format number with decimal places

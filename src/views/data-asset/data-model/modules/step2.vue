@@ -9,7 +9,7 @@
 import { onMounted } from "vue";
 import { fetchTableColumns } from "@/service/api";
 import { useDataModelFormStore } from "@/store/modules/model";
-import { NSelect } from "naive-ui";
+import { NInput, NSelect } from "naive-ui";
 
 // 获取数据模型表单状态存储内容
 const dataModelFormStore = useDataModelFormStore();
@@ -62,7 +62,7 @@ const columns = [
   {
     key: "aggregation",
     title: "聚合方式",
-    width: 200,
+    width: 150,
     render: (row: Api.SystemManage.TableColumns) => {
       if (row.semanticType === 'metric') {
         return (<NSelect v-model:value={row.staticType} options={metricStaticOptions} placeholder="请选择统计方式" onUpdate:value={(value) => {
@@ -74,7 +74,7 @@ const columns = [
   {
     key: "format",
     title: "格式",
-    width: 200,
+    width: 180,
     render: (row: Api.SystemManage.TableColumns) => {
       if (row.semanticType === 'date') {
         return  (<NSelect v-model:value={row.format} options={dateFormatOptions} placeholder="请选择日期格式" onUpdate:value={(value) => {
@@ -85,6 +85,18 @@ const columns = [
       else if (row.semanticType === 'metric') {
         return (<NSelect v-model:value={row.format} options={formatOptions} placeholder="请选择统计方式" onUpdate:value={(value) => {
             row.format = value
+          }}/>)
+      }
+    }
+  },
+  {
+    key: "extendedComputation",
+    title: "扩展计算",
+    width: 200,
+    render: (row: Api.SystemManage.TableColumns) => {
+      if (row.semanticType === 'metric') {
+        return (<NInput v-model:value={row.extendedComputation}  placeholder="请输入扩展计算" onUpdate:value={(value) => {
+            row.extendedComputation = value
           }}/>)
       }
     }

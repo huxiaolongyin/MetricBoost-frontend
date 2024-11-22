@@ -56,7 +56,7 @@ declare namespace Api {
       placeholder?: string
     }
 
-    type TimeType = 'day' | 'week' | 'month' | 'quarter' | 'year';
+    type TimeType = 'day' | 'week' | 'month' | 'year';
   }
 
   /**
@@ -145,14 +145,17 @@ declare namespace Api {
     }
 
 
-    type MetricSearchParams = CommonType.RecordNullable<Pick<MetricData, "id" | 'chineseName' | "sensitivity" | "favoritePerson" | "topicDomain" | "publishStatus" | "createBy" | 'displayStatus'>
+    type MetricSearchParams = CommonType.RecordNullable<Pick<MetricData, "id" | 'chineseName' | "statisticalPeriod" | "sensitivity" | "favoritePerson" | "topicDomain" | "publishStatus" | "createBy" | 'displayStatus'>
       & Api.SystemManage.CommonSearchParams & {
         dateRange: [number, number]
         dimensionDrillDown: string // 发送给接口的参数
         dimensionFilter: string
         check: string
         conditions: string[]
+        sort: Sort
       }>;
+
+    type Sort = 'asc' | 'desc'
 
     type MetricList = Common.PaginatingQueryRecord<MetricData>;
 
@@ -652,6 +655,7 @@ declare namespace Api {
       semanticType: string | null;
       format: string | null;
       staticType: string | null;
+      extendedComputation: string | null;
     }
 
     type TableColumnsList = Common.PaginatingQueryRecord<TableColumns>;

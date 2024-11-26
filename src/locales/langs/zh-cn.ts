@@ -198,6 +198,7 @@ const local: App.I18n.Schema = {
     "data-asset": '数据资产',
     "data-asset_database": '数据源',
     "data-asset_data-model": '模型',
+    "data-asset_tag-settings": '标签',
     manage: '系统管理',
     manage_log: '日志管理',
     manage_user: '用户管理',

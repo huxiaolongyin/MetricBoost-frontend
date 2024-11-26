@@ -198,6 +198,7 @@ const local: App.I18n.Schema = {
     "data-asset": 'Data Asset',
     "data-asset_database": 'Database',
     "data-asset_data-model": 'Data Model',
+    "data-asset_tag-settings": 'Tag',
     manage: 'System Manage',
     manage_log: 'Log Manage',
     manage_user: 'User Manage',

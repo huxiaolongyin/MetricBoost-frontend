@@ -140,6 +140,17 @@ export const generatedRoutes: GeneratedRoute[] = [
           icon: 'solar:database-bold',
           order: 1
         }
+      },
+      {
+        name: 'data-asset_tag-settings',
+        path: '/data-asset/tag-settings',
+        component: 'view.data-asset_tag-settings',
+        meta: {
+          title: 'data-asset_tag-settings',
+          i18nKey: 'route.data-asset_tag-settings',
+          icon: 'mdi:tag-multiple-outline',
+          order: 8
+        }
       }
     ]
   },
@@ -341,7 +352,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_api',
           i18nKey: 'route.manage_api',
           icon: 'ant-design:api-outlined',
-          order: 4
+          order: 2
         }
       },
       {
@@ -352,7 +363,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_log',
           i18nKey: 'route.manage_log',
           icon: 'ic:round-list-alt',
-          order: 7
+          order: 5
         }
       },
       {
@@ -363,7 +374,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_menu',
           i18nKey: 'route.manage_menu',
           icon: 'material-symbols:route',
-          order: 3,
+          order: 1,
           roles: ['R_ADMIN'],
           keepAlive: true
         }
@@ -376,7 +387,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_notification-settings',
           i18nKey: 'route.manage_notification-settings',
           icon: 'ant-design:notification-outlined',
-          order: 8
+          order: 6
         }
       },
       {
@@ -387,7 +398,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_notification-tpls',
           i18nKey: 'route.manage_notification-tpls',
           icon: 'tabler:template',
-          order: 9
+          order: 7
         }
       },
       {
@@ -398,7 +409,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_role',
           i18nKey: 'route.manage_role',
           icon: 'carbon:user-role',
-          order: 1,
+          order: 3,
           roles: ['R_SUPER']
         }
       },
@@ -410,7 +421,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_user',
           i18nKey: 'route.manage_user',
           icon: 'ic:round-manage-accounts',
-          order: 2,
+          order: 4,
           roles: ['R_ADMIN']
         }
       },

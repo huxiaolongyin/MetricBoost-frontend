@@ -22,7 +22,23 @@
         </div>
         <div>
             <div class="font-medium">标签</div>
-            <div class="text-gray">admin</div>
+            <div class="flex items-center flex-wrap">
+                <span v-for="tag in model.tags"
+                    class="text-gray bg-slate-100 dark:bg-slate-500 px-4px py-1px mr-2 rounded relative inline-flex items-center group">
+                    {{ tag }}
+                    <span
+                        class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                        @click="removeTag(tag)">
+                        ×
+                    </span>
+                </span>
+                <span class="inline-flex items-center">
+                    <NButton quaternary size="tiny"
+                        class="text-gray bg-slate-100 dark:bg-slate-500 px-8px py-1px mr-2 rounded">
+                        <icon-ic:round-plus class="text-icon" />
+                    </NButton>
+                </span>
+            </div>
         </div>
         <div>
             <div class="font-medium">上次更新时间</div>
@@ -39,5 +55,8 @@ defineOptions({
 })
 
 const model = defineModel<Api.Metric.MetricData>("metricData", { required: true })
-console.log(model)
+
+const removeTag = (tag: string) => {
+
+}
 </script>

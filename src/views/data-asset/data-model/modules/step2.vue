@@ -36,7 +36,6 @@ const fetchColumns = async () => {
 
 // 在组件挂载时获取表的字段信息
 onMounted(async () => {
-  console.log(dataModelFormStore.stepTwo.fieldConf);
   // 如果数据为空，则获取表的字段信息
   if (!dataModelFormStore.stepTwo.fieldConf){
     await fetchColumns();

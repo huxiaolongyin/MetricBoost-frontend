@@ -1,7 +1,7 @@
 <template>
   <NModal v-model:show="visible" display-directive="show" transform-origin="center" class="h-3/4">
     <NCard :title="title" :bordered="false" size="small" class="card-wrapper w-4/6 h-3/4">
-      <NSteps :current="currentStep" status="process" class="mb-10 ml-28">
+      <NSteps :current="currentStep" status="process" class="mb-10 ml-38">
         <NStep title="选择数据" />
         <NStep title="字段设置" />
         <NStep title="模型信息" />

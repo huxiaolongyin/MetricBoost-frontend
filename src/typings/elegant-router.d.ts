@@ -42,6 +42,7 @@ declare module "@elegant-router/types" {
     "data-asset": "/data-asset";
     "data-asset_data-model": "/data-asset/data-model";
     "data-asset_database": "/data-asset/database";
+    "data-asset_tag-settings": "/data-asset/tag-settings";
     "decision": "/decision";
     "decision-detail": "/decision-detail/:id";
     "function": "/function";
@@ -192,6 +193,7 @@ declare module "@elegant-router/types" {
     | "dashboard"
     | "data-asset_data-model"
     | "data-asset_database"
+    | "data-asset_tag-settings"
     | "decision-detail"
     | "decision"
     | "function_hide-child_one"

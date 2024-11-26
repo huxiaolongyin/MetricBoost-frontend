@@ -27,6 +27,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   dashboard: () => import("@/views/dashboard/index.vue"),
   "data-asset_data-model": () => import("@/views/data-asset/data-model/index.vue"),
   "data-asset_database": () => import("@/views/data-asset/database/index.vue"),
+  "data-asset_tag-settings": () => import("@/views/data-asset/tag-settings/index.vue"),
   "decision-detail": () => import("@/views/decision-detail/[id].vue"),
   decision: () => import("@/views/decision/index.vue"),
   "function_hide-child_one": () => import("@/views/function/hide-child/one/index.vue"),

@@ -8,7 +8,7 @@
     <NFormItem label="表名" path="tableName">
       <NSelect v-model:value="dataModelFormStore.stepOne.tableName"
         :placeholder="$t('page.manage.dataModel.form.tableName')" :options="tableOptions" :loading="tableLoading"
-        clearable />
+        clearable @update:value="() => dataModelFormStore.stepTwo.fieldConf = null" />
     </NFormItem>
   </NForm>
   <NButton type="primary" class="w-20 mb-5" @click="handlePreview"> 预 览 </NButton>
@@ -26,6 +26,12 @@ import { useLoadOptions } from '@/hooks/common/option'
 
 // 获取数据模型表单状态存储内容
 const dataModelFormStore = useDataModelFormStore();
+
+// 定义传入参数
+interface Props {
+  operateType: NaiveUI.TableOperateType;
+}
+const props = defineProps<Props>();
 
 // 设置表单的验证规则
 const rules: FormRules = {
@@ -82,6 +88,7 @@ watch(() => dataModelFormStore.stepOne.database, async (newValue) => {
   }
 })
 
+
 // 数据预览
 const previewData = ref<Api.SystemManage.DataPreview[]>([]);
 const columns = ref<DataTableColumns>([]);
@@ -95,6 +102,7 @@ const handlePreview = async () => {
       size: 10,
       databaseId: dataModelFormStore.stepOne.database,
       tableName: dataModelFormStore.stepOne.tableName,
+      addOrEdit: props.operateType
     });
     columns.value =
       (responseData as any).response.data.columns?.map((item: any) => ({

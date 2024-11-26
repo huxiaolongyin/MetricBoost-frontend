@@ -14,6 +14,12 @@ import { NInput, NSelect } from "naive-ui";
 // 获取数据模型表单状态存储内容
 const dataModelFormStore = useDataModelFormStore();
 
+// 定义传入参数
+interface Props {
+  operateType: NaiveUI.TableOperateType; 
+}
+const props = defineProps<Props>();
+
 // 获取表的字段信息
 const fetchColumns = async () => {
   if (!dataModelFormStore.stepOne.database || !dataModelFormStore.stepOne.tableName) {
@@ -22,13 +28,19 @@ const fetchColumns = async () => {
   const response = await fetchTableColumns({
     database: dataModelFormStore.stepOne.database,
     tableName: dataModelFormStore.stepOne.tableName,
+    addOrEdit: props.operateType
   });
+  
   dataModelFormStore.stepTwo.fieldConf = response.data?.records;
 };
 
 // 在组件挂载时获取表的字段信息
 onMounted(async () => {
-  await fetchColumns();
+  console.log(dataModelFormStore.stepTwo.fieldConf);
+  // 如果数据为空，则获取表的字段信息
+  if (!dataModelFormStore.stepTwo.fieldConf){
+    await fetchColumns();
+  }
 });
 
 // 定义显示数据的字段

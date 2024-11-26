@@ -615,6 +615,7 @@ declare namespace Api {
     type DataPreviewSearchParams = CommonType.RecordNullable<{
       databaseId: number;
       tableName: string;
+      addOrEdit: AddOrEdit
     } & CommonSearchParams>;
 
 
@@ -646,7 +647,10 @@ declare namespace Api {
     interface TableColumnsSearchParams {
       database: number;
       tableName: string;
+      addOrEdit: AddOrEdit
     }
+
+    type AddOrEdit = 'add' | 'edit'
 
     interface TableColumns {
       columnName: string;

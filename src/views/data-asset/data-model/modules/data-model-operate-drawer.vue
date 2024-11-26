@@ -6,8 +6,8 @@
         <NStep title="字段设置" />
         <NStep title="模型信息" />
       </NSteps>
-      <Step1 v-if="currentStep === 1" />
-      <Step2 v-if="currentStep === 2" />
+      <Step1 v-if="currentStep === 1" :operateType="props.operateType" />
+      <Step2 v-if="currentStep === 2" :operateType="props.operateType" />
       <Step3 v-if="currentStep === 3" />
       <template #footer>
         <NFlex :size="16" justify="end">

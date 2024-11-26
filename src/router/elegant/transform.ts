@@ -207,6 +207,8 @@ const routeMap: RouteMap = {
   "manage_api": "/manage/api",
   "manage_log": "/manage/log",
   "manage_menu": "/manage/menu",
+  "manage_notification-settings": "/manage/notification-settings",
+  "manage_notification-tpls": "/manage/notification-tpls",
   "manage_role": "/manage/role",
   "manage_user": "/manage/user",
   "manage_user-detail": "/manage/user-detail/:id",

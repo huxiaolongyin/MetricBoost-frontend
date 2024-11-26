@@ -83,7 +83,7 @@ const renderLabel = (node: any) => {
                 </NButton>
             )}
             {node.option.domainType && (
-                <NFlex justify="end" style="gap: 1px">
+                <NFlex justify="end" size={0} >
                     <NButton size='tiny' onClick={() => handleEdit(node.option.key, node.option)} quaternary>
                         <Icon icon="mdi:square-edit-outline" width={16} height={16} class='text-slate-600' />
                     </NButton>
@@ -110,8 +110,8 @@ const handleAdd = async (key: any) => {
     operateType.value = 'add'
     domainType.value = key
     visible.value = true
+    // 重载数据
     filterTreeData.value = await createTreeData()
-    // 
 }
 
 // 处理编辑
@@ -123,7 +123,6 @@ const handleEdit = async (key: any, data: any) => {
     editingData.value = data
     // 重载数据
     filterTreeData.value = await createTreeData()
-    // console.log(editingData)
 }
 
 const handleDelete = async (domainType: DomainType, value: number) => {

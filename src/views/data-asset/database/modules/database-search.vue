@@ -29,16 +29,14 @@ function search() {
   <NCard :title="$t('common.search')" :bordered="false" size="small" class="card-wrapper">
     <NForm :model="model" label-placement="left" :label-width="80">
       <NGrid responsive="screen" item-responsive>
-
         <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.databaseName')" path="databaseName"
           class="pr-24px">
           <NInput v-model:value="model.databaseName" :placeholder="$t('page.manage.database.form.databaseName')" />
         </NFormItemGi>
 
-        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.databaseType')" path="databaseType"
-          class="pr-24px">
+        <NGi span="24 s:12 m:6" :label="$t('page.manage.database.databaseType')" path="databaseType" class="pr-24px">
           <NInput v-model:value="model.databaseType" :placeholder="$t('page.manage.database.form.databaseType')" />
-        </NFormItemGi>
+        </NGi>
 
         <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.createBy')" path="createBy" class="pr-24px">
           <NInput v-model:value="model.createBy" :placeholder="$t('page.manage.database.form.createBy')" />

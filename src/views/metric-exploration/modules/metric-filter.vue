@@ -11,10 +11,10 @@
                             clearable />
                     </NFormItem>
                 </NFlex>
-                <NFormItem label="维度下钻：" label-placement="left" class="w-8/12">
-                    <NSelect class="w-5/12" v-model:value="formData.dimensionDrillDown"
+                <NFormItem label="维度下钻：" label-placement="left" class="w-full">
+                    <NSelect class="w-3/12" v-model:value="formData.dimensionDrillDown"
                         :options="metricData?.dimensions" clearable />
-                    <NSelect class="w-3/12 ml-2" v-model:value="formData.sort" :options="sortOptions"
+                    <NSelect class="w-1/12 ml-2" v-model:value="formData.sort" :options="sortOptions"
                         placeholder="排名升降序" clearable />
                     <div class="w-full ml-5 text-orange-600">（图表最多显示排名前30行数据）</div>
                 </NFormItem>
@@ -22,10 +22,14 @@
                     <NFlex :size="5" class="w-full">
                         <NSelect v-model:value="formData.dimensionFilter" class="w-2/12" clearable
                             @update:value="handleUpdate" :options="metricData?.dimensions" />
-                        <NSelect v-model:value="formData.check" class="w-1/12" clearable :options="FilterOptions" />
+                        <NSelect v-model:value="formData.comparisonOperators" class="w-1/12" clearable
+                            :options="FilterOptions" />
                         <NSelect v-model:value="formData.conditions" class="w-2/12" filterable clearable
-                            :multiple="formData.check === 'in' || formData.check === 'not in'"
+                            :multiple="formData.comparisonOperators === 'in' || formData.comparisonOperators === 'not in'"
                             :options="conditionOptions" />
+                        <!-- <NButton @click="handleAddGroup">
+                            <Icon icon="material-symbols:add" />
+                        </NButton> -->
                         <NButton class="bg-sky-700 text-white" @click="handleClick">
                             <Icon icon="material-symbols:search" class="mr-2" />查询
                         </NButton>
@@ -87,6 +91,11 @@ const handleClick = () => {
 
 const handleUpdate = () => {
     emit("update");
+}
+
+// 增加维度选项组，todo
+const handleAddGroup = () => {
+
 }
 
 watch(() => formData.value.dimensionFilter, () => {

@@ -4,7 +4,7 @@
     <NInput v-model:value="formData!.chineseName" placeholder="指标搜索"
       class='my-3 h-10 rounded-xl dark:bg-slate-700 flex items-center' style="width: 65%">
       <template #suffix>
-        <Icon icon="mdi:magnify" width="28" height="28" />
+        <Icon icon="mdi:magnify" width="28" height="28" class="text-gray-500" />
       </template>
     </NInput>
   </div>

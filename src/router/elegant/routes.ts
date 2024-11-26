@@ -369,6 +369,28 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
+        name: 'manage_notification-settings',
+        path: '/manage/notification-settings',
+        component: 'view.manage_notification-settings',
+        meta: {
+          title: 'manage_notification-settings',
+          i18nKey: 'route.manage_notification-settings',
+          icon: 'ant-design:notification-outlined',
+          order: 8
+        }
+      },
+      {
+        name: 'manage_notification-tpls',
+        path: '/manage/notification-tpls',
+        component: 'view.manage_notification-tpls',
+        meta: {
+          title: 'manage_notification-tpls',
+          i18nKey: 'route.manage_notification-tpls',
+          icon: 'tabler:template',
+          order: 9
+        }
+      },
+      {
         name: 'manage_role',
         path: '/manage/role',
         component: 'view.manage_role',

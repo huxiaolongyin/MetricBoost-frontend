@@ -205,6 +205,8 @@ const local: App.I18n.Schema = {
     manage_role: '角色管理',
     manage_api: '接口管理',
     manage_menu: '菜单管理',
+    'manage_notification-settings': '通知设置',
+    'manage_notification-tpls': '通知模板',
     exception: '异常页',
     exception_403: '403',
     exception_404: '404',

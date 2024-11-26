@@ -38,7 +38,7 @@ const searchParams = ref<Api.Metric.MetricSearchParams>({
   statisticalPeriod: null,
   dimensionDrillDown: null,
   dimensionFilter: null,
-  check: null,
+  comparisonOperators: null,
   conditions: [],
   sort: "asc"
 });

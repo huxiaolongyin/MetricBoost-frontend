@@ -150,7 +150,7 @@ declare namespace Api {
         dateRange: [number, number]
         dimensionDrillDown: string // 发送给接口的参数
         dimensionFilter: string
-        check: string
+        comparisonOperators: string
         conditions: string[]
         sort: Sort
       }>;

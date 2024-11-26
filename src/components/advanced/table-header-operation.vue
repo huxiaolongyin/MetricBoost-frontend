@@ -25,15 +25,15 @@ const columns = defineModel<NaiveUI.TableColumnCheck[]>('columns', {
   default: () => []
 });
 
-function add() {
+const add = () => {
   emit('add');
 }
 
-function batchDelete() {
+const batchDelete = () => {
   emit('delete');
 }
 
-function refresh() {
+const refresh = () => {
   emit('refresh');
 }
 </script>

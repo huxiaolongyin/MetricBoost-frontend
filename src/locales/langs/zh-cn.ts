@@ -17,6 +17,8 @@ const local: App.I18n.Schema = {
     cancel: '取消',
     close: '关闭',
     check: '勾选',
+    createBy: '创建人',
+    createTime: '创建时间',
     expandColumn: '展开列',
     columnSetting: '列设置',
     config: '配置',
@@ -383,31 +385,7 @@ const local: App.I18n.Schema = {
         publishForm: "发布配置",
       }
     },
-    manage: {
-      common: {
-        status: {
-          enable: '启用',
-          disable: '禁用'
-        }
-      },
-      role: {
-        title: '角色列表',
-        roleName: '角色名称',
-        roleCode: '角色编码',
-        roleStatus: '角色状态',
-        roleDesc: '角色描述',
-        menuAuth: '菜单权限',
-        buttonAuth: '按钮权限',
-        apiAuth: 'API权限',
-        form: {
-          roleName: '请输入角色名称',
-          roleCode: '请输入角色编码',
-          roleStatus: '请选择角色状态',
-          roleDesc: '请输入角色描述'
-        },
-        addRole: '新增角色',
-        editRole: '编辑角色'
-      },
+    dataAsset: {
       database: {
         title: '数据库列表',
         databaseName: '名称',
@@ -442,8 +420,6 @@ const local: App.I18n.Schema = {
         dataDomain: '数据域',
         topicDomain: '主题域',
         status: '状态',
-        createBy: '创建人',
-        createTime: '创建时间',
         filter: '数据域/主题域',
         dataPreview: '数据预览',
         addDataModel: '新增数据模型',
@@ -461,6 +437,45 @@ const local: App.I18n.Schema = {
           createBy: '请输入创建人'
         }
       },
+      tag: {
+        title: "标签管理",
+        tagName: "标签名",
+        tagType: "标签类型",
+        tagDesc: "标签描述",
+        form: {
+          tagName: "请输入标签名",
+          tagType: "请选择标签类型",
+          tagDesc: "请输入标签描述",
+        }
+      }
+    },
+    manage: {
+      common: {
+        status: {
+          enable: '启用',
+          disable: '禁用'
+        }
+      },
+      role: {
+        title: '角色列表',
+        roleName: '角色名称',
+        roleCode: '角色编码',
+        roleStatus: '角色状态',
+        roleDesc: '角色描述',
+        menuAuth: '菜单权限',
+        buttonAuth: '按钮权限',
+        apiAuth: 'API权限',
+        form: {
+          roleName: '请输入角色名称',
+          roleCode: '请输入角色编码',
+          roleStatus: '请选择角色状态',
+          roleDesc: '请输入角色描述'
+        },
+        addRole: '新增角色',
+        editRole: '编辑角色'
+      },
+
+
       log: {
         title: '日志列表',
         logType: '日志类型',

@@ -17,6 +17,8 @@ const local: App.I18n.Schema = {
     cancel: 'Cancel',
     close: 'Close',
     check: 'Check',
+    createBy: 'Creator',
+    createTime: 'Create Time',
     expandColumn: 'Expand Column',
     columnSetting: 'Column Setting',
     config: 'Config',
@@ -384,31 +386,7 @@ const local: App.I18n.Schema = {
         publishForm: "Publish Config",
       }
     },
-    manage: {
-      common: {
-        status: {
-          enable: 'Enable',
-          disable: 'Disable'
-        }
-      },
-      role: {
-        title: 'Role List',
-        roleName: 'Role Name',
-        roleCode: 'Role Code',
-        roleStatus: 'Role Status',
-        roleDesc: 'Role Description',
-        menuAuth: 'Menu Auth',
-        buttonAuth: 'Button Auth',
-        apiAuth: 'API Auth',
-        form: {
-          roleName: 'Please enter role name',
-          roleCode: 'Please enter role code',
-          roleStatus: 'Please select role status',
-          roleDesc: 'Please enter role description'
-        },
-        addRole: 'Add Role',
-        editRole: 'Edit Role'
-      },
+    dataAsset: {
       database: {
         title: 'Database List',
         databaseName: 'Name',
@@ -443,8 +421,6 @@ const local: App.I18n.Schema = {
         dataDomain: 'Data Domain',
         topicDomain: 'Topic Domain',
         status: 'Status',
-        createBy: 'Creator',
-        createTime: 'Create Time',
         filter: 'Data Domain/Topic Domain',
         dataPreview: 'Data Preview',
         addDataModel: 'Add Data Model',
@@ -462,6 +438,44 @@ const local: App.I18n.Schema = {
           createBy: 'Please select creator'
         }
       },
+      tag: {
+        title: "Tag Manger",
+        tagName: "Name",
+        tagType: "Type",
+        tagDesc: "Description",
+        form: {
+          tagName: "Please Input Tag Name",
+          tagType: "Please Select Tag Type",
+          tagDesc: "Please Input Tag Description",
+        }
+      }
+    },
+    manage: {
+      common: {
+        status: {
+          enable: 'Enable',
+          disable: 'Disable'
+        }
+      },
+      role: {
+        title: 'Role List',
+        roleName: 'Role Name',
+        roleCode: 'Role Code',
+        roleStatus: 'Role Status',
+        roleDesc: 'Role Description',
+        menuAuth: 'Menu Auth',
+        buttonAuth: 'Button Auth',
+        apiAuth: 'API Auth',
+        form: {
+          roleName: 'Please enter role name',
+          roleCode: 'Please enter role code',
+          roleStatus: 'Please select role status',
+          roleDesc: 'Please enter role description'
+        },
+        addRole: 'Add Role',
+        editRole: 'Edit Role'
+      },
+
       log: {
         title: 'Log List',
         logType: 'Log type',

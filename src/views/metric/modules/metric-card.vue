@@ -4,7 +4,7 @@
     <!-- 设置边距、大小、屏幕适应 -->
     <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
       <NGi v-for="item in metricData" :key="item.id">
-        <div class="rd-8px px-16px pb-4px pt-12px text-dark dark:text-white shadow-md bg-white dark:bg-slate-700">
+        <div class="rd-8px px-16px pb-4px pt-12px text-dark dark:text-white shadow-md bg-white dark:bg-slate-700 h-38">
           <NGrid cols="2">
             <!-- 左侧 -->
             <NGi>

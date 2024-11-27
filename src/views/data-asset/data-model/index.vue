@@ -3,7 +3,7 @@
 
     <!-- 左侧的筛选栏 -->
     <NGi span="1" class="h-full">
-      <NCard :title="$t('page.manage.dataModel.filter')" :bordered="false" size="small" class="h-full">
+      <NCard :title="$t('page.dataAsset.dataModel.filter')" :bordered="false" size="small" class="h-full">
         <DomainFilter v-model:model="searchParams" @search="getData" />
       </NCard>
     </NGi>
@@ -11,7 +11,7 @@
 
       <!-- 顶部搜索栏 -->
       <DataModelSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-      <NCard :title="$t('page.manage.dataModel.title')" :bordered="false" size="small"
+      <NCard :title="$t('page.dataAsset.dataModel.title')" :bordered="false" size="small"
         class="sm:flex-1-hidden card-wrapper">
         <template #header-extra>
           <TableHeaderOperation v-model:columns="columnChecks" :disabled-delete="checkedRowKeys.length === 0"
@@ -83,19 +83,19 @@ const {
     },
     {
       key: "dataModelName",
-      title: $t("page.manage.dataModel.dataModelName"),
+      title: $t("page.dataAsset.dataModel.dataModelName"),
       align: "center",
       minWidth: 120,
     },
     {
       key: "dataModelDesc",
-      title: $t("page.manage.dataModel.dataModelDesc"),
+      title: $t("page.dataAsset.dataModel.dataModelDesc"),
       align: "center",
       minWidth: 200,
     },
     {
       key: "status",
-      title: $t("page.manage.dataModel.status"),
+      title: $t("page.dataAsset.dataModel.status"),
       align: "center",
       width: 100,
       render: (row) => {
@@ -112,13 +112,13 @@ const {
     },
     {
       key: "createTime",
-      title: $t("page.manage.dataModel.createTime"),
+      title: $t("common.createTime"),
       align: "center",
       minWidth: 120,
     },
     {
       key: "createBy",
-      title: $t("page.manage.dataModel.createBy"),
+      title: $t("common.createBy"),
       align: "center",
       minWidth: 120,
     },

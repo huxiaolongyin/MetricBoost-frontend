@@ -1,24 +1,24 @@
 <template>
   <NForm :rules="rules">
-    <NFormItem :label="$t('page.manage.dataModel.dataModelName')" path="dataModelName">
+    <NFormItem :label="$t('page.dataAsset.dataModel.dataModelName')" path="dataModelName">
       <NInput v-model:value="dataModelFormStore.stepThree.dataModelName"
-        :placeholder="$t('page.manage.dataModel.form.dataModelName')" />
+        :placeholder="$t('page.dataAsset.dataModel.form.dataModelName')" />
     </NFormItem>
-    <NFormItem :label="$t('page.manage.dataModel.dataModelDesc')" path="dataModelDesc">
+    <NFormItem :label="$t('page.dataAsset.dataModel.dataModelDesc')" path="dataModelDesc">
       <NInput v-model:value="dataModelFormStore.stepThree.dataModelDesc"
-        :placeholder="$t('page.manage.dataModel.form.dataModelDesc')" />
+        :placeholder="$t('page.dataAsset.dataModel.form.dataModelDesc')" />
     </NFormItem>
-    <NFormItem :label="$t('page.manage.dataModel.dataDomain')" path="dataDomain">
+    <NFormItem :label="$t('page.dataAsset.dataModel.dataDomain')" path="dataDomain">
       <NSelect v-model:value="dataModelFormStore.stepThree.dataDomain"
-        :placeholder="$t('page.manage.dataModel.form.dataDomain')" :loading="dataDomainLoading"
+        :placeholder="$t('page.dataAsset.dataModel.form.dataDomain')" :loading="dataDomainLoading"
         :options="dataDomainOptions" />
     </NFormItem>
-    <NFormItem :label="$t('page.manage.dataModel.topicDomain')" path="topicDomain">
+    <NFormItem :label="$t('page.dataAsset.dataModel.topicDomain')" path="topicDomain">
       <NSelect v-model:value="dataModelFormStore.stepThree.topicDomain"
-        :placeholder="$t('page.manage.dataModel.form.topicDomain')" :loading="topicDomainLoading"
+        :placeholder="$t('page.dataAsset.dataModel.form.topicDomain')" :loading="topicDomainLoading"
         :options="topicDomainOptions" />
     </NFormItem>
-    <NFormItem :label="$t('page.manage.dataModel.status')" path="status">
+    <NFormItem :label="$t('page.dataAsset.dataModel.status')" path="status">
       <NRadioGroup v-model:value="dataModelFormStore.stepThree.status">
         <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
       </NRadioGroup>

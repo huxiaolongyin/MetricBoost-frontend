@@ -29,21 +29,21 @@ function search() {
   <NCard :title="$t('common.search')" :bordered="false" size="small" class="card-wrapper">
     <NForm :model="model" label-placement="left" :label-width="80">
       <NGrid responsive="screen" item-responsive>
-        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.databaseName')" path="databaseName"
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.database.databaseName')" path="databaseName"
           class="pr-24px">
-          <NInput v-model:value="model.databaseName" :placeholder="$t('page.manage.database.form.databaseName')" />
+          <NInput v-model:value="model.databaseName" :placeholder="$t('page.dataAsset.database.form.databaseName')" />
         </NFormItemGi>
 
-        <NGi span="24 s:12 m:6" :label="$t('page.manage.database.databaseType')" path="databaseType" class="pr-24px">
-          <NInput v-model:value="model.databaseType" :placeholder="$t('page.manage.database.form.databaseType')" />
+        <NGi span="24 s:12 m:6" :label="$t('page.dataAsset.database.databaseType')" path="databaseType" class="pr-24px">
+          <NInput v-model:value="model.databaseType" :placeholder="$t('page.dataAsset.database.form.databaseType')" />
         </NGi>
 
-        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.createBy')" path="createBy" class="pr-24px">
-          <NInput v-model:value="model.createBy" :placeholder="$t('page.manage.database.form.createBy')" />
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.database.createBy')" path="createBy" class="pr-24px">
+          <NInput v-model:value="model.createBy" :placeholder="$t('page.dataAsset.database.form.createBy')" />
         </NFormItemGi>
 
-        <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.database.status')" path="status" class="pr-24px">
-          <NSelect v-model:value="model.status" :placeholder="$t('page.manage.database.form.status')"
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.database.status')" path="status" class="pr-24px">
+          <NSelect v-model:value="model.status" :placeholder="$t('page.dataAsset.database.form.status')"
             :options="translateOptions(enableStatusOptions)" clearable />
         </NFormItemGi>
 

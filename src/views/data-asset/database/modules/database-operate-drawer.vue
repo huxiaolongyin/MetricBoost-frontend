@@ -35,8 +35,8 @@ const { defaultRequiredRule } = useFormRules();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
-    add: $t('page.manage.database.addDatabase'),
-    edit: $t('page.manage.database.editDatabase')
+    add: $t('page.dataAsset.database.addDatabase'),
+    edit: $t('page.dataAsset.database.editDatabase')
   };
   return titles[props.operateType];
 });
@@ -180,46 +180,46 @@ watch(visible, () => {
   <NDrawer v-model:show="visible" display-directive="show" :width="360">
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.manage.database.databaseName')" path="databaseName">
-          <NInput v-model:value="model.databaseName" :placeholder="$t('page.manage.database.form.databaseName')" />
+        <NFormItem :label="$t('page.dataAsset.database.databaseName')" path="databaseName">
+          <NInput v-model:value="model.databaseName" :placeholder="$t('page.dataAsset.database.form.databaseName')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.manage.database.databaseType')" path="databaseType">
-          <NSelect v-model:value="model.databaseType" :placeholder="$t('page.manage.database.form.databaseType')"
+        <NFormItem :label="$t('page.dataAsset.database.databaseType')" path="databaseType">
+          <NSelect v-model:value="model.databaseType" :placeholder="$t('page.dataAsset.database.form.databaseType')"
             :options="databaseTypeOptions" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.manage.database.databaseHost')" path="databaseHost">
-          <NInput v-model:value="model.databaseHost" :placeholder="$t('page.manage.database.form.databaseHost')" />
+        <NFormItem :label="$t('page.dataAsset.database.databaseHost')" path="databaseHost">
+          <NInput v-model:value="model.databaseHost" :placeholder="$t('page.dataAsset.database.form.databaseHost')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.manage.database.databasePort')" path="databasePort">
+        <NFormItem :label="$t('page.dataAsset.database.databasePort')" path="databasePort">
           <NInputNumber v-model:value="model.databasePort"
-            :placeholder="$t('page.manage.database.form.databasePort')" />
+            :placeholder="$t('page.dataAsset.database.form.databasePort')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.manage.database.databaseDatabase')" path="databaseDatabase">
+        <NFormItem :label="$t('page.dataAsset.database.databaseDatabase')" path="databaseDatabase">
           <NInput v-model:value="model.databaseDatabase"
-            :placeholder="$t('page.manage.database.form.databaseDatabase')" />
+            :placeholder="$t('page.dataAsset.database.form.databaseDatabase')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.manage.database.databaseUser')" path="databaseUser">
-          <NInput v-model:value="model.databaseUser" :placeholder="$t('page.manage.database.form.databaseUser')" />
+        <NFormItem :label="$t('page.dataAsset.database.databaseUser')" path="databaseUser">
+          <NInput v-model:value="model.databaseUser" :placeholder="$t('page.dataAsset.database.form.databaseUser')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.manage.database.password')" path="password">
-          <NInput v-model:value="model.password" :placeholder="$t('page.manage.database.form.password')"
+        <NFormItem :label="$t('page.dataAsset.database.password')" path="password">
+          <NInput v-model:value="model.password" :placeholder="$t('page.dataAsset.database.form.password')"
             type="password" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.manage.database.status')" path="status">
+        <NFormItem :label="$t('page.dataAsset.database.status')" path="status">
           <NRadioGroup v-model:value="model.status">
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
         </NFormItem>
 
-        <NFormItem :label="$t('page.manage.database.databaseDesc')" path="databaseDesc">
-          <NInput v-model:value="model.databaseDesc" :placeholder="$t('page.manage.database.form.databaseDesc')" />
+        <NFormItem :label="$t('page.dataAsset.database.databaseDesc')" path="databaseDesc">
+          <NInput v-model:value="model.databaseDesc" :placeholder="$t('page.dataAsset.database.form.databaseDesc')" />
         </NFormItem>
       </NForm>
 

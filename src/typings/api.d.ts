@@ -173,6 +173,41 @@ declare namespace Api {
   }
 
   /**
+ * 命名空间系统管理
+ *
+ * 后端 API 模块：“Tag”
+ */
+  namespace Tag {
+    type TagData = Common.CommonRecord<{
+      id: number;
+      tagName: string;
+      tagType: string;
+      tagDesc: string;
+      createBy: string;
+      createTime: string;
+      updateTime: string;
+    }>
+
+    type TagSearchParams = CommonType.RecordNullable<Pick<TagData, "tagName" | "tagType" | "createBy"> & Api.SystemManage.CommonSearchParams>;
+
+    type TagList = Common.PaginatingQueryRecord<TagData>;
+
+    type TagAddParams = CommonType.RecordNullable<Pick<TagData, "tagName" | "tagType" | "tagDesc" | "createBy">>;
+
+    type TagUpdateParams = CommonType.RecordNullable<Pick<TagData, "id">> & TagAddParams;
+
+    type MetricTagAddParams = {
+      metricId: string;
+      tagId: string;
+      createBy: string;
+    }
+
+    type MetricTagDeleteParams = {
+      metricId: string;
+      tag: string;
+    }
+  }
+  /**
    * 命名空间系统管理
    *
    * 后端 API 模块：“systemManage”

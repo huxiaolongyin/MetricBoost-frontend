@@ -2,12 +2,12 @@
   <NForm :rules="rules">
     <NFormItem label="数据库" path="database">
       <NSelect v-model:value="dataModelFormStore.stepOne.database"
-        :placeholder="$t('page.manage.dataModel.form.databaseSelect')" :options="databaseOptions"
+        :placeholder="$t('page.dataAsset.dataModel.form.databaseSelect')" :options="databaseOptions"
         :loading="databaseLoading" clearable />
     </NFormItem>
     <NFormItem label="表名" path="tableName">
       <NSelect v-model:value="dataModelFormStore.stepOne.tableName"
-        :placeholder="$t('page.manage.dataModel.form.tableName')" :options="tableOptions" :loading="tableLoading"
+        :placeholder="$t('page.dataAsset.dataModel.form.tableName')" :options="tableOptions" :loading="tableLoading"
         clearable @update:value="() => dataModelFormStore.stepTwo.fieldConf = null" />
     </NFormItem>
   </NForm>

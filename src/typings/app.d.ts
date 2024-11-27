@@ -267,6 +267,8 @@ declare namespace App {
         cancel: string;
         close: string;
         check: string;
+        createTime: string;
+        createBy: string;
         expandColumn: string;
         columnSetting: string;
         config: string;
@@ -520,31 +522,7 @@ declare namespace App {
             publishForm: string;
           }
         };
-        manage: {
-          common: {
-            status: {
-              enable: string;
-              disable: string;
-            };
-          };
-          role: {
-            title: string;
-            roleName: string;
-            roleCode: string;
-            roleStatus: string;
-            roleDesc: string;
-            form: {
-              roleName: string;
-              roleCode: string;
-              roleStatus: string;
-              roleDesc: string;
-            };
-            addRole: string;
-            editRole: string;
-            menuAuth: string;
-            buttonAuth: string;
-            apiAuth: string;
-          };
+        dataAsset: {
           database: {
             title: string;
             databaseName: string;
@@ -579,8 +557,6 @@ declare namespace App {
             dataDomain: string;
             topicDomain: string;
             status: string;
-            createBy: string;
-            createTime: string;
             filter: string;
             dataPreview: string;
             addDataModel: string;
@@ -598,6 +574,44 @@ declare namespace App {
               createBy: string;
             }
           };
+          tag: {
+            title: string;
+            tagName: string;
+            tagType: string;
+            tagDesc: string;
+            form: {
+              tagName: string;
+              tagType: string;
+              tagDesc: string;
+            }
+          }
+        }
+        manage: {
+          common: {
+            status: {
+              enable: string;
+              disable: string;
+            };
+          };
+          role: {
+            title: string;
+            roleName: string;
+            roleCode: string;
+            roleStatus: string;
+            roleDesc: string;
+            form: {
+              roleName: string;
+              roleCode: string;
+              roleStatus: string;
+              roleDesc: string;
+            };
+            addRole: string;
+            editRole: string;
+            menuAuth: string;
+            buttonAuth: string;
+            apiAuth: string;
+          };
+
           log: {
             title: string;
             logType: string;

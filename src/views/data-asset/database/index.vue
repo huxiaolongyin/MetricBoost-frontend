@@ -34,31 +34,31 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
     },
     {
       key: 'databaseName',
-      title: $t('page.manage.database.databaseName'),
+      title: $t('page.dataAsset.database.databaseName'),
       align: 'center',
       minWidth: 120
     },
     {
       key: 'databaseType',
-      title: $t('page.manage.database.databaseType'),
+      title: $t('page.dataAsset.database.databaseType'),
       align: 'center',
       minWidth: 120
     },
     {
       key: 'databaseHost',
-      title: $t('page.manage.database.databaseHost'),
+      title: $t('page.dataAsset.database.databaseHost'),
       align: 'center',
       minWidth: 120
     },
     {
       key: 'databaseDatabase',
-      title: $t('page.manage.database.databaseDatabase'),
+      title: $t('page.dataAsset.database.databaseDatabase'),
       align: 'center',
       minWidth: 120
     },
     {
       key: 'status',
-      title: $t('page.manage.database.status'),
+      title: $t('page.dataAsset.database.status'),
       align: 'center',
       width: 100,
       render: row => {
@@ -139,7 +139,7 @@ function edit(id: number) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <DatabaseSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <NCard :title="$t('page.manage.database.title')" :bordered="false" size="small"
+    <NCard :title="$t('page.dataAsset.database.title')" :bordered="false" size="small"
       class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation v-model:columns="columnChecks" :disabled-delete="checkedRowKeys.length === 0"

@@ -58,8 +58,8 @@ const emit = defineEmits<Emits>();
 // 设置弹窗标题
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
-    add: $t("page.manage.dataModel.addDataModel"),
-    edit: $t("page.manage.dataModel.editDataModel"),
+    add: $t("page.dataAsset.dataModel.addDataModel"),
+    edit: $t("page.dataAsset.dataModel.editDataModel"),
   };
   return titles[props.operateType];
 });

@@ -43,6 +43,9 @@ declare module "@elegant-router/types" {
     "data-asset_data-model": "/data-asset/data-model";
     "data-asset_database": "/data-asset/database";
     "data-asset_tag-settings": "/data-asset/tag-settings";
+    "data-service": "/data-service";
+    "data-service_api-manange": "/data-service/api-manange";
+    "data-service_application": "/data-service/application";
     "decision": "/decision";
     "decision-detail": "/decision-detail/:id";
     "function": "/function";
@@ -146,6 +149,7 @@ declare module "@elegant-router/types" {
     | "alova"
     | "dashboard"
     | "data-asset"
+    | "data-service"
     | "decision"
     | "decision-detail"
     | "function"
@@ -194,6 +198,8 @@ declare module "@elegant-router/types" {
     | "data-asset_data-model"
     | "data-asset_database"
     | "data-asset_tag-settings"
+    | "data-service_api-manange"
+    | "data-service_application"
     | "decision-detail"
     | "decision"
     | "function_hide-child_one"

@@ -1,13 +1,9 @@
 <template>
-    <div class="px-6 mt-2">
-        <NCard class="bg-white dark:bg-slate-700 rounded-xl" title="数据趋势">
-            <div ref="domRef" class="h-full w-full" style="height: 400px; width: 100%;"></div>
-        </NCard>
-    </div>
+    <div ref="domRef" class="h-full w-full" style="height: 400px; width: 100%;"></div>
 </template>
 
 <script setup lang="ts">
-import { watch, ref } from "vue";
+import { watch } from "vue";
 import { useEcharts } from "@/hooks/common/echarts";
 import type { SeriesOption } from "echarts";
 import { CallbackDataParams } from 'echarts/types/dist/shared'
@@ -17,13 +13,11 @@ import { formatEchartDisplay } from '@/hooks/common/metric-format';
 const metricData = defineModel<Api.Metric.MetricData>("metricData", { required: false })
 
 const { domRef, updateOptions } = useEcharts(() => ({}));
-// 在你的组件中添加图表实例的引用
-const chartInstance = ref<echarts.ECharts>();
 
-// 根据获取到的数据进行渲染 Echart 图表
+// 根据获取到的数据进行渲染 Echart 图表 
 // 如果只有 date + value，则只有单系列
 // 如果有除上面以外的维度，超过1个，使用多系列处理。目前无更好方式处理超过2个及以上的情况
-watch(() => metricData.value, () => {
+const renderChart = async () => {
     if (!metricData.value?.data || !Array.isArray(metricData.value.data) || metricData.value.data.length === 0) {
         // 如果没有数据，您可以在这里处理，或者直接返回
         return;
@@ -162,9 +156,8 @@ watch(() => metricData.value, () => {
         // 更新图表
     }
     updateOptions(() => chartOption);
+}
 
-    // 添加图例hover事件监听
-
-})
+watch(() => metricData.value, renderChart)
 
 </script>

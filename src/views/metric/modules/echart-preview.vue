@@ -3,14 +3,15 @@
 </template>
 
 <script setup lang="ts">
-import { watchEffect } from "vue";
+import { onMounted, watchEffect } from "vue";
 import { useEcharts } from "@/hooks/common/echarts";
+import { watch, nextTick } from 'vue';
 
-const props = defineProps<{
-  metricData: Api.Metric.MetricData;
-}>();
+// 双向绑定数据
+const metricData = defineModel<Api.Metric.MetricData>('metricData', { required: true })
 
-const isScale = props.metricData.chartType === "line";
+// 判断是否需要缩放
+const isScale = metricData.value.chartType === "line";
 
 const { domRef, updateOptions } = useEcharts(() => ({
   grid: {
@@ -22,7 +23,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
   xAxis: { type: "category", show: false },
   yAxis: { type: "value", show: false, splitLine: { show: false }, scale: isScale },
   series: {
-    type: props.metricData.chartType,
+    type: metricData.value.chartType,
     data: [] as number[],
     itemStyle: { color: "#165DFF" },
     areaStyle: {
@@ -46,20 +47,22 @@ const { domRef, updateOptions } = useEcharts(() => ({
 
 async function updateChartData() {
   await new Promise((resolve) => {
-    setTimeout(resolve, 1000);
+    setTimeout(resolve, 500);
   });
 
+
   updateOptions((opts) => {
-    opts.series.type = props.metricData.chartType;
-    opts.series.data = props.metricData.data.map((item) => item.value);
+    opts.series.type = metricData.value.chartType;
+    opts.series.data = metricData.value.data.map((item) => item.value);
+
     return opts;
   });
 }
 
-watchEffect(() => {
-  if (props.metricData) {
-    updateChartData();
-  }
-});
-
+// 监听 metricData 的变化，更新图表
+watch(
+  () => metricData.value?.data,
+  async (newdata) => updateChartData(),
+  { immediate: true }
+);
 </script>

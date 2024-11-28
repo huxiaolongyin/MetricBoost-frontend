@@ -105,10 +105,10 @@ declare namespace Api {
 
     type StatisticalPeriod = 'day' | 'month' | 'quarter' | 'year';
 
-    type ChartType = 'line' | 'bar';
+    type ChartType = 'bar' | 'line';
 
     interface MetricData {
-      id: string;                // 唯一标识符
+      id: number;                // 唯一标识符
       dataModel: number;         // 选用数据模型
       businessScope: string;     // 业务口径
       chineseName: string;       // 中文名
@@ -197,13 +197,13 @@ declare namespace Api {
     type TagUpdateParams = CommonType.RecordNullable<Pick<TagData, "id">> & TagAddParams;
 
     type MetricTagAddParams = {
-      metricId: string;
+      metricId: number;
       tagId: string;
       createBy: string;
     }
 
     type MetricTagDeleteParams = {
-      metricId: string;
+      metricId: number;
       tag: string;
     }
   }

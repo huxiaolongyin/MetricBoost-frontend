@@ -1,30 +1,71 @@
 <template>
     <NFlex vertical class="text-black mt-5 ml-5" size='large'>
-        <NFlex justify="space-between">
-            <NGrid cols="2">
-                <NGi>
-                    <NFlex vertical>
-                        <div class="font-medium">查询</div>
-                        <div class="text-gray">188</div>
-                    </NFlex>
-                </NGi>
-                <NGi>
-                    <NFlex vertical>
-                        <div class="font-medium">收藏</div>
-                        <div class="text-gray">0</div>
-                    </NFlex>
-                </NGi>
-            </NGrid>
-        </NFlex>
+        <div class="font-semibold text-xl mb-3 ">{{ model.chineseName }}</div>
+        <NButtonGroup>
+            <NPopover placement="bottom">
+                <template #trigger>
+                    <NButton size="small" class="w-40">
+                        <template #icon>
+                            <Icon icon="mdi:fire" />
+                        </template>
+                        188
+                    </NButton>
+                </template>
+                查询热度
+            </NPopover>
+            <NPopover placement="bottom">
+                <template #trigger>
+                    <NButton size="small" class="w-40">
+                        <template #icon>
+                            <Icon icon="tabler:star" />
+                        </template>
+                        0
+                    </NButton>
+                </template>
+                点击收藏
+            </NPopover>
+        </NButtonGroup>
         <div>
-            <div class="font-medium">所有者</div>
-            <div class="text-gray">{{ model.createBy }}</div>
+            <div>版本</div>
+            <div class="text-gray mt-1">v1</div>
         </div>
         <div>
+            <div class="font-medium">负责人</div>
+            <div class="text-gray mt-1">{{ model.createBy }}</div>
+        </div>
+        <div>
+            <div class="font-medium">上次更新时间</div>
+            <div class="text-gray">{{ model.updateTime }}</div>
+        </div>
+        <NFlex align="center" size="small">
+            <NPopover trigger="hover" :show-arrow="false" placement="bottom">
+                <template #trigger>
+                    <span class="bg-slate-200 py-1 pr-1 rounded font-medium"> 基础信息 </span>
+                </template>
+                <div>1231</div>
+            </NPopover>
+            <NButton quaternary size="tiny" @click="infoShow = true">
+                <template #icon>
+                    <Icon icon="mynaui:edit" />
+                </template>
+            </NButton>
+        </NFlex>
+        <NDrawer v-model:show="infoShow" :width="1000">
+            <NDrawerContent>
+                <template #header>
+                    编辑指标
+                </template>
+                <template #footer>
+                    <NButton @click="handleSubmit" class="px-6" type="primary">提交</NButton>
+                </template>
+                <MetricInfo v-model:metric-data="model" />
+            </NDrawerContent>
+        </NDrawer>
+        <div>
             <div class="font-medium">标签</div>
-            <div class="flex items-center flex-wrap">
+            <div class="flex items-center flex-wrap mt-1">
                 <span v-for="tag in model.tags"
-                    class="text-gray bg-slate-100 dark:bg-slate-500 px-4px py-1px mr-2 rounded relative inline-flex items-center group">
+                    class="text-amber-600 bg-orange-50 dark:bg-slate-500 px-4px py-1px mr-2 rounded relative inline-flex items-center group">
                     {{ tag }}
                     <NPopconfirm @positive-click="handleRemoveTag(tag)" positive-text="确定" negative-text="取消">
                         <template #trigger>
@@ -47,18 +88,17 @@
                 </span>
             </div>
         </div>
-        <div>
-            <div class="font-medium">上次更新时间</div>
-            <div class="text-gray">{{ model.updateTime }}</div>
-        </div>
     </NFlex>
 </template>
 
 <script setup lang="ts">
 import { useLoadOptions } from '@/hooks/common/option'
-import { fetchTag, fetchAddMetricTag, fetchDeleteMetricTag } from "@/service/api"
-import { onMounted, watch } from 'vue'
+import { fetchTag, fetchAddMetricTag, fetchDeleteMetricTag, fetchUpdateMetric } from "@/service/api"
+import { onMounted, watch, ref } from 'vue'
 import { useAuthStore } from '@/store/modules/auth';
+import { Icon } from '@iconify/vue';
+import MetricInfo from './metric-info.vue';
+import { $t } from '@/locales'
 
 // 定义组件的名称
 defineOptions({
@@ -68,8 +108,13 @@ defineOptions({
 // 获取用户信息
 const authStore = useAuthStore();
 
+// 双向同步模型
 const model = defineModel<Api.Metric.MetricData>("metricData", { required: true })
 
+// 定义基础信息显示
+const infoShow = ref(false)
+
+// 移除标签
 const handleRemoveTag = async (tag: string) => {
     fetchDeleteMetricTag({
         metricId: model.value.id,
@@ -117,9 +162,33 @@ const filterOptions = () => {
         key: item.value
     }))
 }
-const asyncTagOptions = async () => {
+
+// 提交表单
+const handleSubmit = async () => {
+    const formData: Api.Metric.MetricUpdateParams = {
+        id: model.value.id,
+        dataModel: model.value.dataModel,
+        businessScope: model.value.businessScope,
+        chineseName: model.value.chineseName,
+        englishName: model.value.englishName,
+        alias: model.value.alias,
+        sensitivity: model.value.sensitivity,
+        statisticalPeriod: model.value.statisticalPeriod,
+        chartType: model.value.chartType,
+        chartDisplayDate: model.value.chartDisplayDate,
+        publishStatus: model.value.publishStatus,
+        createBy: authStore.userInfo.userName
+    }
+    // 更新指标
+    const { error } = await fetchUpdateMetric(formData);
+    if (!error) {
+        window.$message?.success($t('common.updateSuccess'));
+    }
+    // 关闭抽屉
+    infoShow.value = false
 
 }
+
 onMounted(async () => {
     await Promise.all([
         fetchTagOptions(),

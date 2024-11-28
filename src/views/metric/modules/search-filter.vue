@@ -1,7 +1,7 @@
 <template>
   <!-- 搜索框 -->
   <div class="flex justify-center w-full">
-    <NInput v-model:value="formData!.chineseName" placeholder="指标搜索"
+    <NInput v-model:value="formData!.chineseName" :placeholder="$t('page.metric.metricPlaceholder')"
       class='my-3 h-10 rounded-xl dark:bg-slate-700 flex items-center' style="width: 65%">
       <template #suffix>
         <Icon icon="mdi:magnify" width="28" height="28" class="text-gray-500" />
@@ -13,16 +13,16 @@
     <!-- 主题域选择框 -->
     <NGi>
       <div class="flex items-center w-full mt-4">
-        <div class="text-dark dark:text-white w-18 ml-8 justify-center">主题域</div>
+        <div class="text-dark dark:text-white w-18 ml-8 justify-center">{{ $t("page.metric.topicDomain") }}</div>
         <NSelect v-model:value="formData!.topicDomain" :options="topicDomainOptions" placeholder="请选择主题域"
           :loading="topicDomainLoading" clearable class="dark:bg-slate-700" />
       </div>
     </NGi>
-
+    数据服务
     <!-- 展示类型 -->
     <NGi>
       <div class="flex items-center w-full mt-4">
-        <div class="text-dark dark:text-white w-20 ml-12 ">展示类型</div>
+        <div class="text-dark dark:text-white w-20 ml-12 ">{{ $t("page.metric.displayStatus") }}</div>
         <NRadioGroup v-model:value="formData!.displayStatus">
           <NRadioButton v-for="item in OPTIONS_CONFIG.showType" :key='item.value' :value="item.value"
             :label="item.label" class="dark:bg-slate-700" />
@@ -33,7 +33,7 @@
     <!-- 发布状态 -->
     <NGi>
       <div class="flex items-center w-full mt-4">
-        <div class="text-dark dark:text-white w-20 ml-12 ">发布状态</div>
+        <div class="text-dark dark:text-white w-20 ml-12 ">{{ $t("page.metric.publishStatus") }}</div>
         <NRadioGroup v-model:value="formData!.publishStatus">
           <NRadioButton v-for="item in OPTIONS_CONFIG.publish" :key='item.value' :value="item.value" :label="item.label"
             class="dark:bg-slate-700" />
@@ -44,7 +44,7 @@
     <!-- 敏感度 -->
     <NGi>
       <div class="flex items-center w-full mt-4">
-        <div class="text-dark dark:text-white w-20 ml-12 ">敏感度</div>
+        <div class="text-dark dark:text-white w-20 ml-12 ">{{ $t("page.metric.sensitivity") }}</div>
         <NRadioGroup v-model:value="formData!.sensitivity">
           <NRadioButton v-for="item in OPTIONS_CONFIG.sensitive" :key='item.value' :value="item.value"
             :label="item.label" class="dark:bg-slate-700" />
@@ -59,6 +59,8 @@ import { Icon } from "@iconify/vue";
 import { OPTIONS_CONFIG } from '@/constants/options'
 import { useLoadOptions } from '@/hooks/common/option'
 import { fetchGetTopicDomainList } from "@/service/api";
+import { $t } from '@/locales';
+import { onMounted } from "vue";
 
 // 定义“搜索”组件的选项
 defineOptions({
@@ -77,7 +79,7 @@ const {
   () => fetchGetTopicDomainList(),
   'domainName',
   'id')
-fetchTopicDomainOptions()
+
 
 
 // 定义按钮组的选项
@@ -107,5 +109,7 @@ const radioGroups: RadioGroup[] = [
     options: OPTIONS_CONFIG.sensitive
   }
 ]
-
+onMounted(async () =>
+  await fetchTopicDomainOptions()
+)
 </script>

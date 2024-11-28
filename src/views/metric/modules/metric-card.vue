@@ -3,7 +3,7 @@
 
     <!-- 设置边距、大小、屏幕适应 -->
     <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
-      <NGi v-for="item in metricData" :key="item.id">
+      <NGi v-for="(item, index) in metricDataList" :key="item.id">
         <div class="rd-8px px-16px pb-4px pt-12px text-dark dark:text-white shadow-md bg-white dark:bg-slate-700 h-38">
           <NGrid cols="2">
             <!-- 左侧 -->
@@ -26,7 +26,7 @@
             <NGi>
               <!-- 菜单栏 -->
               <div class="flex justify-end">
-                <NDropdown placement="bottom-end" trigger="click" :options="menuOption"
+                <NDropdown placement="bottom-end" trigger="click" :options="menuOptions"
                   @select="(key) => handleSelect(key, item)">
                   <Icon icon="material-symbols:more-horiz" width="24" height="24"
                     class="text-slate-400 hover:text-slate-600" />
@@ -34,7 +34,7 @@
               </div>
 
               <!-- 图表 -->
-              <EChartComponent :metricData="item" />
+              <EChart v-model:metricData="metricDataList[index]" />
             </NGi>
           </NGrid>
         </div>
@@ -44,18 +44,21 @@
 </template>
 <script setup lang="ts">
 
-import EChartComponent from "./echart-preview.vue";
+import EChart from "./echart-preview.vue";
 import { Icon } from "@iconify/vue";
+import { fetchDeleteMetric, fetchMetric } from "@/service/api"
 import { useRouterPush } from '@/hooks/common/router';
 import { getFormattedValue } from '@/hooks/common/metric-format';
+import { h } from 'vue'
+import { $t } from "@/locales";
 
 defineOptions({
   name: "MetricCard",
 });
 
 // 通过模型获取卡片数据
-const metricData = defineModel<Api.Metric.MetricData[]>('metricData', { required: true })
-
+const metricDataList = defineModel<Api.Metric.MetricData[]>('metricDataList', { required: true })
+const searchParams = defineModel<Api.Metric.MetricSearchParams>('searchParams', { required: true })
 
 // 获取小数位数，设置金额、流量、百分数的小数位数为 2 ，其他为 0 位
 const getDemicals = (FormatType: Api.Metric.FormatType) => {
@@ -86,31 +89,53 @@ const getPrefix = (FormatType: Api.Metric.FormatType) => {
   return (FormatType === "currency" ? "￥" : "");
 };
 
-const menuOption = [
-  { label: '基本信息', key: "metric-detail" },
+const menuOptions = [
   { label: '指标探索', key: "metric-exploration" },
   { label: '发布分享', key: "metric-publish" },
   { label: '生成报告', key: "metric-report" },
   { label: 'AI 分析', key: "metric-ai" },
   { label: "加入收藏", key: "saveToFavorites" },
+  { label: () => h('span', { style: { color: 'red' } }, '删除'), key: "delete", }
 ]
 
 const handleSelect = (key: string, item: Api.Metric.MetricData) => {
   const { routerPushByKey } = useRouterPush(false);
-  if (key === "metric-detail") {
-    routerPushByKey("metric-detail", { params: { id: item.id, }, query: { item: JSON.stringify(item) } });
-  }
-  else if (key === "metric-exploration") {
-    routerPushByKey("metric-exploration", { params: { id: item.id, } });
+  if (key === "metric-exploration") {
+    routerPushByKey("metric-exploration", { params: { id: item.id.toString() } });
   }
   else if (key === "metric-publish") {
-    routerPushByKey("metric-publish", { params: { id: item.id, } });
+    routerPushByKey("metric-publish", { params: { id: item.id.toString() } });
   }
   else if (key === "metric-report") {
-    routerPushByKey("metric-report", { params: { id: item.id, } });
+    routerPushByKey("metric-report", { params: { id: item.id.toString() } });
   }
   else if (key === "metric-ai") {
-    routerPushByKey("metric-ai", { params: { id: item.id, } });
+    routerPushByKey("metric-ai", { params: { id: item.id.toString(), } });
+  }
+  else if (key === 'delete') {
+    window.$dialog?.warning({
+      title: '确认删除',
+      content: '确定要删除该指标吗？',
+      positiveText: '确定',
+      negativeText: '取消',
+      onPositiveClick: async () => {
+        // 执行删除逻辑
+        const { error } = await fetchDeleteMetric({ id: item.id });
+        if (error) {
+          window.$message?.error(error.message)
+          return
+        }
+        window.$message?.success($t('common.deleteSuccess'))
+
+        // 删除成功后，重新获取数据
+        const { displayStatus, ...requestParams } = searchParams.value;
+        const response = await fetchMetric(requestParams);
+        metricDataList.value = response.data?.records ?? [];
+      }
+    })
+    return
   }
 }
+
+
 </script>

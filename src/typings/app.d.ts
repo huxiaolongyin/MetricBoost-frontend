@@ -513,6 +513,11 @@ declare namespace App {
           };
         };
         metric: {
+          topicDomain: string;
+          displayStatus: string;
+          publishStatus: string;
+          sensitivity: string;
+          metricPlaceholder: string;
           formTile: {
             modelForm: string;
             metricForm: string;

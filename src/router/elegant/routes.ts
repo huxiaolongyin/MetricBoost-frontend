@@ -155,6 +155,41 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'data-service',
+    path: '/data-service',
+    component: 'layout.base',
+    meta: {
+      title: 'data-service',
+      i18nKey: 'route.data-service',
+      icon: 'material-symbols:service-directory',
+      order: 10
+    },
+    children: [
+      {
+        name: 'data-service_api-manange',
+        path: '/data-service/api-manange',
+        component: 'view.data-service_api-manange',
+        meta: {
+          title: 'data-service_api-manange',
+          i18nKey: 'route.data-service_api-manange',
+          icon: 'mdi:api',
+          order: 1
+        }
+      },
+      {
+        name: 'data-service_application',
+        path: '/data-service/application',
+        component: 'view.data-service_application',
+        meta: {
+          title: 'data-service_application',
+          i18nKey: 'route.data-service_application',
+          icon: 'mdi:apps',
+          order: 2
+        }
+      }
+    ]
+  },
+  {
     name: 'decision',
     path: '/decision',
     component: 'layout.base$view.decision',
@@ -340,7 +375,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'manage',
       i18nKey: 'route.manage',
       icon: 'carbon:cloud-service-management',
-      order: 10,
+      order: 11,
       roles: ['R_ADMIN']
     },
     children: [

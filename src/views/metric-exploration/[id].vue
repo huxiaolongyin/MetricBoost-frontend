@@ -4,9 +4,19 @@
       <NGi span="4">
         <MetricFilter v-model:metricData="metricData" v-model:searchParams="searchParams" @submit="handleSubmit"
           @update="handleUpdate" />
-        <MetricChart v-model:metricData="metricData" />
-        <MetricDetail v-model:metricData="metricData" v-model:searchParams="searchParams"
-          v-model:isDataLoading="isDataLoading" />
+        <div class="px-6 mt-2">
+          <NCard class="bg-white dark:bg-slate-700 rounded-xl " title="数据趋势">
+            <NTabs type="line" animated @update:value="handleTabChange">
+              <NTabPane name="chart" tab="图表">
+                <MetricChart v-model:metricData="metricData" />
+              </NTabPane>
+              <NTabPane name="detail" tab="详情">
+                <MetricDetail v-model:metricData="metricData" v-model:searchParams="searchParams"
+                  v-model:isDataLoading="isDataLoading" />
+              </NTabPane>
+            </NTabs>
+          </NCard>
+        </div>
       </NGi>
       <NGi>
         <MetricSidebar v-model:metric-data="metricData" />
@@ -26,7 +36,7 @@ import { fetchMetric } from "@/service/api";
 
 // 通过路由参数获取 metric的 ID、item
 const route = useRoute();
-const id = route.params.id as string;
+const id = parseInt(route.params.id as string);
 
 // 获取指标数据
 const metricData = ref<Api.Metric.MetricData>({} as Api.Metric.MetricData);
@@ -85,7 +95,7 @@ onMounted(async () => {
   isDataLoading.value = false;
 });
 
-// 处理维度筛选
+// 处理提交
 const handleSubmit = async () => {
   fetchMetricData();
   isDataLoading.value = false;
@@ -93,6 +103,11 @@ const handleSubmit = async () => {
 
 // 处理维度筛选
 const handleUpdate = () => { };
-</script>
 
-<style scoped></style>
+// 处理切换tab
+const handleTabChange = (tabName: string) => {
+  if (tabName === 'chart') {
+    handleSubmit()
+  }
+}
+</script>

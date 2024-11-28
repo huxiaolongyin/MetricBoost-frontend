@@ -1,10 +1,6 @@
 <template>
-    <div class="px-6 mt-2">
-        <NCard class="bg-white dark:bg-slate-700 rounded-xl" title="数据明细">
-            <NDataTable :columns="columns" :data="metricData?.data" size="small" :loading="isDataLoading"
-                class="sm:h-full" :pagination="pagination" scroll-y="700" :max-height="250" />
-        </NCard>
-    </div>
+    <NDataTable :columns="columns" :data="metricData?.data" size="small" :loading="isDataLoading" class="sm:h-full"
+        :pagination="pagination" scroll-y="700" :max-height="250" />
 </template>
 
 <script setup lang="ts">

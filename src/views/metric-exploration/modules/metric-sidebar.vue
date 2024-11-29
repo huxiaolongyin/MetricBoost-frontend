@@ -42,7 +42,33 @@
                 <template #trigger>
                     <span class="bg-slate-200 py-1 pr-1 rounded font-medium"> 基础信息 </span>
                 </template>
-                <div>1231</div>
+                <div>
+                    <div class="font-bold">基础信息</div>
+                    <NDivider style="margin: 6px 0;" />
+                    <NGrid cols="3" :x-gap="12" :y-gap="12">
+                        <NGi :span="1">
+                            <NFlex vertical>
+                                <div class="font-medium">选用模型：</div>
+                                <div class="font-medium">业务口径：</div>
+                                <div class="font-medium">中文名：</div>
+                                <div class="font-medium">英文名：</div>
+                                <div class="font-medium">敏感度：</div>
+                                <div class="font-medium">统计显示：</div>
+                            </NFlex>
+                        </NGi>
+                        <NGi :span="2">
+                            <NFlex vertical>
+                                <div class="font-medium">{{ model.dataModel }}</div>
+                                <div class="font-medium">{{ model.businessScope }}</div>
+                                <div class="font-medium">{{ model.chineseName }}</div>
+                                <div class="font-medium">{{ model.englishName }}</div>
+                                <div class="font-medium">{{ model.sensitivity }}</div>
+                                <div class="font-medium">{{ model.chartDisplayDate }}{{ model.statisticalPeriod }}</div>
+                            </NFlex>
+                        </NGi>
+                    </NGrid>
+                </div>
+
             </NPopover>
             <NButton quaternary size="tiny" @click="infoShow = true">
                 <template #icon>

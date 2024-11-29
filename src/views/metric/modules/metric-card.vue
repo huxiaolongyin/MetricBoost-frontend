@@ -10,7 +10,6 @@
             <NGi>
               <h3 class="text-16px">{{ item.chineseName }}</h3>
               <div class="flex justify-between pt-12px">
-
                 <!-- 添加动态的数字动画 -->
                 <CountTo :start-value="0" :end-value="getFormattedValue(item)" :decimals="getDemicals(item.formatType)"
                   :suffix="getSuffix(item.formatType)" :prefix="getPrefix(item.formatType)"
@@ -34,7 +33,7 @@
               </div>
 
               <!-- 图表 -->
-              <EChart v-model:metricData="metricDataList[index]" />
+              <EChart v-model:metricData="metricDataList[index]" style="width: 100%; height: 100px;" />
             </NGi>
           </NGrid>
         </div>

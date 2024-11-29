@@ -1,6 +1,6 @@
 <template>
     <NDataTable :columns="columns" :data="metricData?.data" size="small" :loading="isDataLoading" class="sm:h-full"
-        :pagination="pagination" scroll-y="700" :max-height="250" />
+        :pagination="pagination" scroll-y="700" :max-height="320" />
 </template>
 
 <script setup lang="ts">
@@ -36,9 +36,9 @@ const columns = ref<DataTableColumns>([
 
 const pagination = ref({
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
     showSizePicker: true,
-    pageSizes: [5, 10, 20],
+    pageSizes: [10, 20, 30, 50],
     onChange: (page: number) => {
         pagination.value.page = page
         // handlePreview()

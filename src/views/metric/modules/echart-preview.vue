@@ -3,9 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watchEffect } from "vue";
 import { useEcharts } from "@/hooks/common/echarts";
-import { watch, nextTick } from 'vue';
+import { watch } from 'vue';
 
 // 双向绑定数据
 const metricData = defineModel<Api.Metric.MetricData>('metricData', { required: true })
@@ -15,10 +14,10 @@ const isScale = metricData.value.chartType === "line";
 
 const { domRef, updateOptions } = useEcharts(() => ({
   grid: {
-    left: "3%",
-    right: "4%",
-    bottom: "10%",
-    top: "3%",
+    left: "0%",
+    right: "5%",
+    bottom: "3%",
+    top: "0%",
   },
   xAxis: { type: "category", show: false },
   yAxis: { type: "value", show: false, splitLine: { show: false }, scale: isScale },
@@ -32,7 +31,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
         x: 0,
         y: 0,
         x2: 0,
-        y2: 1,
+        y2: 0,
         colorStops: [{
           offset: 0,
           color: 'rgba(22,93,255,0.3)'

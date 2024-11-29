@@ -20,7 +20,6 @@ export function fetchAddMetric(data?: Api.Metric.MetricAddParams) {
 
 // 更新指标
 export function fetchUpdateMetric(data?: Api.Metric.MetricUpdateParams) {
-    console.log(data)
     return request<Api.Metric.MetricData, 'json'>({
         url: `/metric/${data?.id}`,
         method: 'patch',
